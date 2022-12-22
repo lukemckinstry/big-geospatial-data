@@ -1,6 +1,9 @@
 # GUS 8061 - Big Geospatial Data
 
-Taught by Lee Hachadoorian <https://liberalarts.temple.edu/academics/faculty/hachadoorian-lee> in Spring 2023, using materials originally created by Xiaojiang Li, Ph.D, Department of Geography and Urban Studies, Temple University, <http://www.urbanspatial.info/>.
+**Lee Hachadoorian**\
+**Spring 2023**
+
+Based on materials created by Xiaojiang Li, PhD, Department of Geography and Urban Studies, Temple University, <http://www.urbanspatial.info/>.
 
 ## 1. Configure Environment and Python basics
 
@@ -36,9 +39,9 @@ Taught by Lee Hachadoorian <https://liberalarts.temple.edu/academics/faculty/hac
 
 ## 5. Spatial database
 
-5.1 Install Postgres/Postgis
+5.1 Install Postgres/PostGIS
 
-5.2. Basics of SQL
+5.2. SQL Basics
 
 5.3. Spatial Analyses through SQL queries
 
