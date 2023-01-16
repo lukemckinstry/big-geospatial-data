@@ -1,0 +1,21 @@
+name: geospatial
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - spyder
+  - pyqtwebengine
+  - geopandas
+  - rasterio
+  - descartes
+  - jupyter
+  - matplotlib
+  - sqlalchemy
+  - psycopg2
+  - boto3
+  - smart_open
+  - scikit-learn-intelex
+  - progressbar2
+  - tqdm
+  # - conda-forge::pysolar
+prefix: /home/user/miniconda3/envs/geospatial
