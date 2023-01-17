@@ -15,7 +15,7 @@ For the most part this course assumes you are working in an Anaconda Python envi
 
 1. [Install Anaconda and configure Python module](lab1-basics-python-spatial-programing/install-anaconda.md)
 2. [Become familiar with Jupyter Notebook](lab1-basics-python-spatial-programing/jupyter-notebook.md)
-3. [Python basics](01_basics_python_spatial_data.ipynb))
+3. [Python basics](01_basics_python_spatial_data.ipynb)
 
 ## 2. Basics of GIS programming
 
@@ -47,7 +47,9 @@ The exercise [Using Fiona to manipulate shapefiles and do spatial analysis](03_s
 2. SQL Basics
 3. Spatial Analyses through SQL queries
 
-## 6. Access Spatial Database using Python ([link](lab6-access-db-python/querydb_python.ipynb))
+## 6. Access Spatial Database using Python
+
+The exercise [Database operations in Python](06_querydb_python.ipynb) has the following sections:
 
 1. Access Postgres/PostGIS database using Python
 2. Read shapefile and save features into database tables using Python
@@ -112,9 +114,9 @@ Additionally, I have included Spyder (my preferred IDE) and PyQtWebEngine (neces
 
 ## About PyPI and Anaconda
 
-How you manage your Python environment is up to you. The advantage of Anaconda is that it is not just a repository but a full package management system that takes care of complex dependencies for you. This is important for geospatial data. Prior to Anaconda, it could be quite dodgy to install gdal for Python, which also relies upon the GDAL C++ library. The GeoPandas project recommends installing with Anaconda, and [specifically warns of the pitfalls of the pitfalls of installing with pip](https://geopandas.org/en/stable/getting_started/install.html#installing-with-pip).
+How you manage your Python environment is up to you. The advantage of Anaconda is that it is not just a repository but a full package management system that takes care of complex dependencies for you. This is important for geospatial data. Prior to Anaconda, it could be quite dodgy to install gdal for Python, which depends on the GDAL C++ library. The GeoPandas project recommends installing GeoPandas with Anaconda, and [specifically warns of the pitfalls of the pitfalls of installing with pip](https://geopandas.org/en/stable/getting_started/install.html#installing-with-pip).
 
-Since all of the packages needed in these lab exercises are available in conda channels (almost all in the default channel), I've removed `!pip install some_package` statements from several of the notebooks that I inherited. I've done this for two reasons. For one, notebooks are for **analysis**, and I don't think package installation should be included in a notebook (sometimes somewhere in the middle of the analysis). Your environment should already be set up, or instructions to set it up should be at the top, or in an addendum. But apart from the issue of *when* packages should be installed, you also should avoid mixing pip and conda as much as possible. Again, Anaconda is a package management system. Pip works completely differently, and will shove it's packages into your environment, probably linked against libraries elsewhere in your operating system (i.e., not in the conda environment), and possibly creating the kinds of conflicts that Anaconda checks for and avoids. Sometimes unsatisfiable package conflicts may force you down this path, but you definitely shouldn't do this as a *first* resort. Mixing different Python installation methods can lead to this:
+Since all of the packages needed in these lab exercises are available in conda channels (almost all in the default channel), I've removed `!pip install some_package` statements from several of the notebooks that I inherited. I've done this for two reasons. For one, notebooks are for **analysis**, and I don't think package installation should be included in a notebook (sometimes somewhere in the middle of the analysis). Your environment should already be set up, or instructions to set it up should be at the top, or in an addendum. But apart from the issue of *when* packages should be installed, you also should avoid mixing pip and conda as much as possible. Again, Anaconda is a package management system. Pip works completely differently, and will impolitely shove its packages into your environment, probably linked against libraries not in the conda environment, and possibly creating the kinds of conflicts that conda checks for and avoids. Sometimes, unsatisfiable package conflicts may force you use pip to install a package that conda refuses to, but you definitely shouldn't do this as a *first* resort. Mixing different Python installation methods can lead to this:
 
 ![](https://imgs.xkcd.com/comics/python_environment.png)
 
@@ -122,9 +124,7 @@ If you find a wayward `pip install` in these notebooks, please bring it to my at
 
 # Acquiring the Notebooks and Data
 
-You can download individual notebooks and data files as needed.
-
-The easiest way to acquire the notebooks and data is to clone this repository:
+You can download individual notebooks and data files as needed. However, the easiest way to acquire the notebooks and data is to clone this repository:
 
 ```
 https://github.com/leehach/big-geospatial-data.git
@@ -132,7 +132,7 @@ https://github.com/leehach/big-geospatial-data.git
 
 If you don't have Git installed, you can instead [download the repo as a ZIP](https://github.com/leehach/big-geospatial-data/archive/refs/heads/main.zip). Of course, if there are changes, you will have to redownload changed files or the entire repo, whereas if you clone the repo you can update the files with `git pull`.
 
-Some notebooks require downloading data (usually large files or data available via API) from other sources.
+Some notebooks require downloading data that is not stored in this repo (usually large files or data available via API).
 
 The repo contains an untracked `output` directory. When you create this repo, you should create `output` as a subdirectory of your main working directory. The notebooks will direct all created data to this repo. In some instances, large file downloads may also be expected to be *read* from `output`. This somewhat violates the nomenclature, but allows us to maintain one untracked directory for files that we don't want to accidentally end up in the remote.
 
@@ -146,6 +146,6 @@ I prefer double quotes for `"strings"`. The reason for this is that I often have
 
 For string formatting, I strongly prefer f-strings (available in Python 3.6+). See [Python 3's f-Strings: An Improved String Formatting Syntax (Guide)](https://realpython.com/python-f-strings/) if you aren't familiar with f-strings. I'm still revising the notebooks to use f-strings consistently.
 
-There are some recommended conventions which I won't be following. It's a best practice to put all your imports at the top of a module. This seems to be widely ignored in Jupyter notebooks. Since we're going to be using these notebooks primarily for instructional purposes, there is a benefit to showing the import statement just before using the object that you've imported, with explanatory text explaining what you're doing. Having all the imports at the top may work for software design, but starting off a pedagogical notebook with a long list of imports is not great.
+There are some recommended conventions which I won't be following. It's a best practice to put all imports at the top of a module. Since we're going to be using these notebooks primarily for instructional purposes, there is a benefit to showing the import statement just before using the object that you've imported, with explanatory text explaining what you're doing. Having all the imports at the top may work for software design, but starting off a pedagogical notebook with a long list of imports is not great.
 
 
