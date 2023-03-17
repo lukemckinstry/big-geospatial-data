@@ -149,21 +149,21 @@ ogrinfo -so PG:"host=localhost port=5433 dbname=gis user=docker password=docker"
 ```
 INFO: Open of `PG:host=localhost port=5433 user=docker password=docker dbname=gis'
       using driver `PostgreSQL' successful.
-1: public.philadata3652 (Point)
+1: census3652 (Multi Polygon)
 ```
 
 If you have uploaded other data, you may see more results in the list
 
-Now let's get information on the data set that we want to import, `census3652.gpkg`. Make sure that your working directory is the course repository. The statement below uses to relative paths to find `census3652.gpkg` in the `data` directory of the current directory. If your current working directory is different, you will have to either change directories or adjust the path in the command.
+Now let's get information on the data set that we want to import, `philadata3652.gpkg`. Make sure that your working directory is the course repository. The statement below uses to relative paths to find `philadata3652.gpkg` in the `data` directory of the current directory. If your current working directory is different, you will have to either change directories or adjust the path in the command.
 
 ```sh
-ogrinfo -so data/census3652.gpkg 
+ogrinfo -so data/philadata3652.gpkg 
 ```
 
 ```
-INFO: Open of `data/census3652.gpkg'
+INFO: Open of `data/philadata3652.gpkg'
       using driver `GPKG' successful.
-1: census3652 (Multi Polygon)
+1: philadata3652 (Point)
 ```
 
 Finally, we can import the data as follows. The format is:
@@ -172,22 +172,24 @@ Finally, we can import the data as follows. The format is:
 ogr2ogr -f <output format> <destination> <source>
 ```
 
-The output format will be PostgreSQL. The destination will use the same PG connection string that we used as input to ogrinfo above, and the source will be `census3652.gpkg` (with the appropriate path).
+The output format will be PostgreSQL. The destination will use the same PG connection string that we used as input to ogrinfo above, and the source will be `philadata3652.gpkg` (with the appropriate path).
 
 ```sh
-ogr2ogr -f PostgreSQL PG:"host=localhost port=5433 user=docker password=docker dbname=gis" data/census3652.gpkg 
+ogr2ogr -f PostgreSQL PG:"host=localhost port=5433 user=docker password=docker dbname=gis" data/philadata3652.gpkg 
 ```
 
 Once the command runs, you can refresh the connection in QGIS DB Manager and preview the table and spatial data.
 
+<!--
 > **WARNING:** For reasons which are unclear to me, when I imported this data, it came in with an incorrect coordinate reference system. You can check the CRS in QGIS. If it is not SRID 3652, the import was incorrect. In this case you can either do the import in QGIS DB Manager, or you can use the ogr2ogr flag `-a_srs 3652` to override the SRID when you do the import:
 >
 > 
     ```sh
     ogr2ogr -f PostgreSQL PG:"host=localhost port=5433 user=docker password=docker dbname=gis" data/census3652.gpkg -a_srs 3652
     ```
+-->
 
-Back in `psql`, you can use `\dt` to see that both tables are now present in the database.
+Back in `psql`, you can use `\dt` to see that both tables are now present in the database, or repeat your ogrinfo command against the database.
 
 ## 4. Querying in PostGIS
 
@@ -340,5 +342,5 @@ GROUP BY c.gid;
 
 If you go to QGIS, you can now see this view as another spatial layer in the database, add it to the Canvas, and make a choropleth map of the accidents. You can also export it to other formats such as GeoPackage or shapefile using QGIS, ogr2ogr, or other tools.
 
-When you are through working with `psql`, use `\q` to quit.
+When you are through working with `psql`, use `\q` to quit `psql`. Then use `exit` to exit from the Docker container.
 
