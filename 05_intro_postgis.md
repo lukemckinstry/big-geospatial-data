@@ -1,10 +1,10 @@
 # Introduction to Spatial Databases with PostGIS
 
-Database systems can make spatial operations much simpler, and are more efficient to handle a large number of records. Working in a large spreadsheet or CSV can be quite difficult. Shapefiles have a size limit of 2 GB. Working with large spatial layers in a spatial database system such as PostGIS is both easier and much more efficient. There are many available relational database management systems (RDBMS) and a growing number of NoSQL (non-relational) database systems. We will focus on the PostGIS extension to PostgreSQL, arguably the most popular open source spatial RDBMS. (MySQL and its fork, MariaDB, continue to outpace PostgreSQL as a general RDBMS). We will learn about directly querying a database, then learn how to query a database using Python. You will learn some basic SQL suitable for spatial analysis. If you have already taken GUS 8067 - Spatial Database Design, some of this will already be familiar to you.
+Database systems can make spatial operations much simpler, and are more efficient for handling a large number of records. Working in a large spreadsheet or CSV can be quite difficult. Shapefiles have a size limit of 2 GB. Working with large spatial layers in a spatial database system such as PostGIS is both easier and much more efficient. There are many available relational database management systems (RDBMS) and a growing number of NoSQL (non-relational) database systems. We will focus on the PostGIS extension to PostgreSQL, arguably the most popular open source spatial RDBMS. (MySQL and its fork, MariaDB, continue to outpace PostgreSQL in popularity as a general RDBMS). We will learn about directly querying a database, then learn how to query a database using Python. You will learn some basic SQL suitable for spatial analysis. If you have already taken GUS 8067 - Spatial Database Design, some of this will already be familiar to you.
 
 ## 1. Installing Postgres/PostGIS
 
-In this class we will run PostGIS in a Docker container. Docker is a virtualization technology that allows you to run a complete operating system inside another operating system. Docker has become reasonably widespread in the data science world because it is possible to share a Docker container with a configured server, preloaded data, and a development environment, making it very easy for other researchers to reproduce your analysis without installing a lot of software. Of course, if you don't have Docker installed, you will have to install it first, but once you do it gives you a "no installation" way to run a Postgres server, web server, Python development environment, or anything else that someone has already created a Docker container for.
+In this class we will run PostGIS in a Docker container. Docker is a virtualization technology that allows you to run a complete operating system inside another operating system. Docker has become reasonably widespread in the data science world because it is possible to share a Docker container with a configured server, a development environment, and even preloaded data, making it very easy for other researchers to reproduce your analysis without installing a lot of software. Of course, you will have to install Docker first if you don't already have it installed, but once you do, it gives you a "no installation" way to run a Postgres server, web server, Python development environment, or anything else that someone has already created a Docker container for.
 
 Please follow my instructions for [Creating a PostGIS Server in Docker](https://leehach.github.io/spatialdb/creating_a_postgis_server_in_docker).
 
@@ -57,10 +57,10 @@ You will be prompted for the password which is also `docker`. You will then get 
 Now give a SQL command at the prompt:
 
 ```sql
-SELECT 1;
+SELECT 'Hello, world!';
 ```
 
-This is a very basic SQL statement. It does not query any table, it's just selects an expression (the value `1`) into an unnamed column. It is very uninteresting, but it does prove that we are able to successfully issue SQL commands and 
+This is a very basic SQL statement. It does not query any table, it's just selects an expression (the value `'Hello, world!'`, a traditional first program to test in any language) into an unnamed column. It is very uninteresting, but it does prove that we are able to successfully issue SQL commands and 
 have the database evaluate them and return a resultset.
 
 Note that the semicolon (`;`) is required as a command terminator in `psql`. SQL statements can be complex and for ease of entry and reading are often typed on multiple lines. Hitting Enter does *not* cause the SQL statement to be evaluated unless the line ends with a semicolon.
@@ -72,13 +72,13 @@ Now lets issue some basic commands. `psql` has a number of "meta-commands" that 
 \l
 ```
 
-This command lists all databases with: You should see `gis`, `postgres`, `template0`, and `template1`. `gis` si the database we are currently connected to, and the one we will work in for the remainder of this exercise. `postgres` is the maintenance database, which is present in every PostgreSQL cluster, and should not be used to store data. the template databases allow you to configure them to use as a template for other databases that you create. They should not be used to store data.
+This command lists all databases in the cluster. You should see `gis`, `postgres`, `template0`, and `template1`. `gis` is the database we are currently connected to, and the one we will work in for the remainder of this exercise. `postgres` is the maintenance database, which is present in every PostgreSQL cluster, and which should not be used to store data. The template databases can be configured for use as templates for other databases that you create. They should not be used to store data.
 
 ```sh
 \dt
 ```
 
-This command lists all tables in the current database. As we haven't loaded any data yet, you should see only a small number of PostGIS maintenance tables such as `spatial_ref_sys`.
+This command lists all tables in the current schema of the current database. As we haven't loaded any data yet, you should see only a small number of PostGIS maintenance tables such as `spatial_ref_sys`.
 
 ```
 SELECT version();
@@ -87,12 +87,12 @@ SELECT PostGIS_Full_Version();
 
 These commands provide information on the installed version of PostgreSQL and the installed version of PostGIS, including supporting libraries such as GEOS and GDAL.
 
-Don't issue this command right now, but when you are ready to quit, you can do so with `\q`. This will exit `psql` and return to the container shell. When you are done working in the container, you can use `exit` at the prompt to exit the container. Note that the container is still running, but you are no longer connected to its terminal.
+When you are ready to quit, you can do so with `\q`, *but don't do this right now*. This will exit `psql` and return to the container shell. When you are done working in the container, you can use `exit` at the prompt to exit the container. Note that the container is still running, but you are no longer connected to its terminal.
 
 
 ## 3. Load Spatial Layers into the Database
 
-As shown in the previous exercise, we can create database tables using SQL commands. When working with research data, we often need to import prexisting data (frequently publicly available). This section is about loading spatial layers such as shapefiles and GeoPackages into a spatial database. There are two GeoPackages in the data folder, a polygon layer "census3652.shp" and a point layer "philadata3652.shp". We will demonstrate two ways to import them, one using a GUI tool (QGIS) and one using a command line tool (`ogr2ogr`).
+As shown in the previous exercise, we can create database tables using SQL commands. When working with research data, we often need to import prexisting data (frequently, publicly available data). This section is about loading spatial layers such as shapefiles and GeoPackages into a spatial database. There are two GeoPackages in the repository data folder, a polygon layer "census3652.shp" and a point layer "philadata3652.shp". We will demonstrate two ways to import them, one using a GUI tool (QGIS) and one using a command line tool (`ogr2ogr`).
 
 ### 3.1. Load a Spatial Layer Using QGIS
 
@@ -107,7 +107,7 @@ You will see the following dialog. The connection settings are the same ones use
 
 ![](images/qgis_create_docker_postgis_connection.png)\ 
 
-* **Name:** This can be anything you want. Name it something that will be clear and easy to understand, and don't worry about being verbose. As you do more research, you may make use of multiple PostGIS databases, so don't name it something generic like "PostGIS"! Including the server name, database name, or a project name if this database will hold data for a specific project, are good ideas.
+* **Name:** This can be anything you want. Name it something that will be clear and easy to understand, and don't worry about being verbose. As you do more research, you may make use of multiple PostGIS databases, so don't name it something generic like "PostGIS"! Including the server name, database name, or a project name for a single-purpose database, are all good options.
 * **User name** and **password**: Click the Basic tab to display the user name and password textboxes. For this database---a local database used for learning purposes---we don't care about security, so click the checkboxes to Store the user name and password. This will save you from having to input your credentials every time you add a layer from this database. If you are working with a production database, make sure to follow your organization's security policy.
 
 You might want to hit Test Connection and make sure everything is working before hitting OK.
@@ -131,105 +131,214 @@ Settings in the dialog should look like this. More explanation follows.
 * **Create spatial index:** Spatial indices will speed up your spatial queries. There is almost never a reason to *not* create a spatial index right away.
 
 ### 3.2 Load a Spatial Layer Using `ogr2ogr`
-First create a database of phila through the command,
-create database phila;
-Then you can import the shapefiles into the database of phila.
-1. For windows users,Download
-the
-tool
-to
-convert
-the
-shapefile
-to
-spatial
-data
-base
-table,
-http://download.osgeo.org/postgis/windows/. Make sure put the exe file to the folder of the your
-postgres. For example, on my computer, C:\Program Files\PostgreSQL. Then double click it to
-install the tool,
-Then let’s connect to the database in the postgis-bundle tool, by click ‘View Connection
-details’,Fill the table using your username, password, localhost, and db name.
-Then you need to enable the extension of PostGIS by typing in the PSQL shell,
-CREATE EXTENSION POSTGIS;
-After enabling the PostGIS, then you can import the shapefile to PostGIS table. Click the
-“Add File”, and select the shapefile you want to convert to Postgres database table, and set the
-“SRID” as the epsg code of the shapefile.Click the add File and select one shapefile, then you can click import. You can then check your
-database in the PSQL shell,
-\c phila;
-\dt
-You will find you have the table imported successfully.
-Reference: https://postgis.net/workshops/postgis-intro/loading_data.html
-For Mac users
-You can just stay in the terminal and use the command line to convert the shapefile into
-Postgres table. First cd to the directory of your shapefile, and then type in,Convert the shapefile of philadata3652.shp into a PostGIS table. First cd to the directory of the
-philadata.shp file, and type in,
-shp2pgsql -s 3652 philadata3652> philadata.sql
-You will find that there is a file “philadata.sql” created. This is a series of Postgres commands.
-We need to enable the PostGIS before running these commands. Open the “philadata.sql” using
-text editor, and add the statement on top,
-CREATE EXTENSION postgis;
-Then you can run the .sql and import the shapefile into Postgres database table,
-psql -h localhost -U postgres -d phila -p 5432 -f philadata.sql
--h: the host of localhost
--U: the username
--d: the database name
--p: portal, default of 5432
--f: the .sql file
-Convert the shapefile of the census tract of Philadelphia into the table
-shp2pgsql -s 3652 census3652> census3652.sql
-Then you will find there is a census3652.sql file. The next step is to run the commands and
-insert the data to your database, make sure you start the PostGIS service first in your psql terminal,
-CREATE EXTENSION postgis;Then you can run the .sql in your Mac/Linux terminal,
-psql -h localhost -U postgres -d phila -p 5432 -f census3652.sql
-You can check if the shapefile has been imported into the database in the terminal,
-\c phila;
-\dt
 
-## 4. Run Spatial Queries in PostGIS
+**NOTE:** these are *not* SQL commands.
 
-After you imported the shapefiles into postgres tables, we can then get started to do our
-queries using SQL.
-4.1 Check the number of records in your point shapefile
-select count(*) from philadata3652;4.2 Preview the structure of the table
+When you created your `geospatial` conda environment, conda also installed a handful of command line tools. We are going to demonstrate two of them ogrinfo and ogr2ogr, which are used to display information on vector data sources and convert between vector data formats.
+
+In Anaconda Prompt, activate the `geospatial` environment if it is not already activated. (You might want to open a new terminal window, as we will need to use `psql` again shortly.) 
+
+To get info on the PostGIS data source, we use the same connection parameters (host, port, dbname, user, and password) that we used previously. Get used to this! You will use these connection parameters next week when we connect to the database from Python.
+
+The command below gets info on the spatial database using the given connection string. The `-so` switch means summary only, and reduces the amount of information displayed. It is especially useful when querying *layers*, as the result will otherwise include all attribute and geometry information on all features in the layer. When querying a *container*, it is less crucial. The results 
+
+```sh
+ogrinfo -so PG:"host=localhost port=5433 dbname=gis user=docker password=docker"
+```
+
+```
+INFO: Open of `PG:host=localhost port=5433 user=docker password=docker dbname=gis'
+      using driver `PostgreSQL' successful.
+1: public.philadata3652 (Point)
+```
+
+If you have uploaded other data, you may see more results in the list
+
+Now let's get information on the data set that we want to import, `census3652.gpkg`. Make sure that your working directory is the course repository. The statement below uses to relative paths to find `census3652.gpkg` in the `data` directory of the current directory. If your current working directory is different, you will have to either change directories or adjust the path in the command.
+
+```sh
+ogrinfo -so data/census3652.gpkg 
+```
+
+```
+INFO: Open of `data/census3652.gpkg'
+      using driver `GPKG' successful.
+1: census3652 (Multi Polygon)
+```
+
+Finally, we can import the data as follows. The format is:
+
+```sh
+ogr2ogr -f <output format> <destination> <source>
+```
+
+The output format will be PostgreSQL. The destination will use the same PG connection string that we used as input to ogrinfo above, and the source will be `census3652.gpkg` (with the appropriate path).
+
+```sh
+ogr2ogr -f PostgreSQL PG:"host=localhost port=5433 user=docker password=docker dbname=gis" data/census3652.gpkg 
+```
+
+Once the command runs, you can refresh the connection in QGIS DB Manager and preview the table and spatial data.
+
+> **WARNING:** For reasons which are unclear to me, when I imported this data, it came in with an incorrect coordinate reference system. You can check the CRS in QGIS. If it is not SRID 3652, the import was incorrect. In this case you can either do the import in QGIS DB Manager, or you can use the ogr2ogr flag `-a_srs 3652` to override the SRID when you do the import:
+>
+> 
+    ```sh
+    ogr2ogr -f PostgreSQL PG:"host=localhost port=5433 user=docker password=docker dbname=gis" data/census3652.gpkg -a_srs 3652
+    ```
+
+Back in `psql`, you can use `\dt` to see that both tables are now present in the database.
+
+## 4. Querying in PostGIS
+
+After importing the spatial layers into PostGIS tables, we can query the tables using spatial SQL.
+
+### 4.1 Check the number of records in a layer
+
+```sql
+SELECT count(*) from philadata3652;
+```
+
+```
+ count 
+-------
+ 51686
+(1 row)
+```
+
+### 4.2 Display Table Sturcture
+
+```sh
 \d philadata3652;
-Now we are ready for the spatial database tables. Then we can use the database tables to do
-the spatial join between the point shapefile and the census tract polygon file. Here is an example
-of counting the number of points in each polygon,
-SELECT census3652.tractce, count(philadata3652.panoid)
-FROM philadata3652
-LEFT JOIN census3652 ON ST_Intersects(census3652.geom, philadata3652.geom)
+```
+
+```
+                               Table "big_geospatial_data.philadata3652"
+   Column   |         Type         | Collation | Nullable |                  Default                   
+------------+----------------------+-----------+----------+--------------------------------------------
+ gid        | integer              |           | not null | nextval('philadata3652_gid_seq'::regclass)
+ geom       | geometry(Point,3652) |           |          | 
+ fid        | bigint               |           |          | 
+ panoid     | character varying    |           |          | 
+ year       | character varying    |           |          | 
+ month      | character varying    |           |          | 
+ lon        | double precision     |           |          | 
+ lat        | double precision     |           |          | 
+ pano_yaw   | double precision     |           |          | 
+ tilt_yaw   | character varying    |           |          | 
+ tilt_pitch | character varying    |           |          | 
+ gvi        | double precision     |           |          | 
+Indexes:
+    "philadata3652_pkey" PRIMARY KEY, btree (gid)
+    "sidx_philadata3652_geom" gist (geom)
+
+~
+(END)
+```
+
+When the SQL command returns a long result, the result is displayed one "page" at a time. You can use the spacebar to page through the results. When you see `(END)`, as above, the results are complete. At any point (even if you do not see `(END)`), you can type `q` to quit the display of results. The display will return to the SQL prompt.
+
+### 4.3 Spatial Analysis in PostGIS
+
+Now we are ready to run spatial queries against the database tables. The following query is a standard GIS point-in-polygon operation. It counts the number of points in `philadata3652` (representing traffic accidents) in polygon (representing a Census tract) in `census3652`.
+
+The first form is more verbose. The second form uses **aliasing** to shorten the name of each table in the `FROM` clause for easier us when it is referenced elsewhere in the query.
+
+```sql
+SELECT census3652.tractce, count(*)
+FROM philadata3652 LEFT JOIN census3652 
+    ON ST_Intersects(census3652.geom, philadata3652.geom)
 GROUP BY census3652.tractce;
-We can make our statement shorter,
-SELECT c.tractce, count(p.panoid)
-FROM philadata3652 p
-LEFT JOIN census3652 c ON ST_Intersects(c.geom, p.geom)
-GROUP BY c.tractce;If we want more attribute to be saved, then you can use the statement of,
-SELECT c2.tractce, c2.countyfp, c2.statefp, c2.geom, t.num
-FROM (
-SELECT c.tractce, count(p.panoid) as num
-FROM philadata3652 p
-LEFT JOIN census3652 c ON ST_Intersects(c.geom, p.geom)
-GROUP BY c.tractce) t
-JOIN census3652 c2 ON c2.tractce = t.tractce limit 4;
-Since we want to save the result as a new shapefile, we need to create a new table of the
-queried result,
-CREATE TABLE CensusPntNum AS
-SELECT c2.tractce, c2.countyfp, c2.statefp, c2.geom, t.num
-FROM (
-SELECT c.tractce, count(p.panoid) as num
-FROM philadata3652 p
-LEFT JOIN census3652 c ON ST_Intersects(c.geom, p.geom)
-GROUP BY c.tractce) t
-JOIN census3652 c2 ON c2.tractce = t.tractce;
-Then you will find you have a new table “censuspntnum” created,You can check the structure of the newly created table by,
-We can use the same commands to export the table to a shapefile,
-Let’s save the table as a shapefile, using the following command in terminal (not your psql
-command),pgsql2shp -u postgres -h localhost -P 5424796 -f pntshp phila "SELECT
-* FROM censuspntnum;"
--u: the username of the database
--h: the host, here is the localhost
--P: is your password
--f: the file you going to save
-phila: the database name
+```
+
+And the same query with aliasing, followed by the result:
+
+```sql
+SELECT c.tractce, count(*)
+FROM philadata3652 p LEFT JOIN census3652 c
+    ON ST_Intersects(c.geom, p.geom)
+GROUP BY c.tractce;
+
+```
+
+The first screen of results:
+
+```
+ tractce | count 
+---------+-------
+         |   303
+ 000801  |    21
+ 008702  |    76
+ 024000  |   107
+ 031502  |    50
+ 001500  |    69
+ 004102  |   106
+ 021300  |   112
+ 019000  |   188
+ 024300  |   115
+ 014200  |   182
+ 020102  |    92
+ 008802  |    82
+ 015700  |   143
+ 033300  |   212
+ 035301  |   116
+ 024100  |    53
+ 024600  |   133
+ 028902  |   106
+ 010000  |   126
+ 034801  |   166
+
+```
+
+We often want to add more attribute data, specifically, attributes of the container geography. That is, we really want to *add* the accident count to the Census tract layer. We usually want to retain the geometry (the `geom` column) of the container so that we can map the results.  Because `geom` displays a lengthy binary representation of the geometry, the display is not very readable, so the results will not be shown here. But our purpose will be to display this in a GIS or use it as input to further analysis.
+
+The easiest way to include these additional columns from `census3652` is to add them to the `SELECT` list. Because of the grouping, these columns would have to also be added to the `GROUP BY` clause. We should also alias the output column `count(*)` for clarity. (In the following selection we limit the resultset to 1 just for display purposes.)
+
+```sql
+SELECT c.tractce, c.countyfp, c.statefp, c.geom, count(*) AS accident_count
+FROM philadata3652 p LEFT JOIN census3652 c 
+    ON ST_Intersects(c.geom, p.geom)
+GROUP BY c.tractce, c.countyfp, c.statefp, c.geom
+LIMIT 1;
+```
+
+\[**Results omitted**\]
+
+There is a shortcut for including additional columns in the display without having to explicity include them in the `GROUP BY`. If you use a table's **primary key** as a grouping column, you can include additional columns (including all of them!) in the `SELECT` list without adding them to the `GROUP BY` clause. This query uses the `*` to request all columns from the table `census3652`:
+
+```sql
+SELECT c.*, count(*) AS accident_count
+FROM philadata3652 p LEFT JOIN census3652 c 
+    ON ST_Intersects(c.geom, p.geom)
+GROUP BY c.gid
+LIMIT 1;
+```
+
+\[**Results omitted**\]
+
+### 4.4 Making Results Available to External Tools
+
+So far, we have merely displayed the results in `psql`. What we really want is to be able to access the results in another tool, such as a desktop GIS or a geospatial programming language.
+
+There are several ways to do this.
+
+1. We could use this query in another tool to extract the results for use in that tool. For example, QGIS DB Manager has a SQL Window that allows you to execute a SQL statement against the database. If the result returns a geometry column, QGIS can add it to the Canvas as a spatial layer.
+2. The query could be persisted in the database as a new table using `CREATE TABLE ... AS ...`. There are two disadvantages to doing so:
+    1. If the source data changes, the created table does not reflect the new data.
+    2. If you create many such result tables for ad hoc analyses, your database will become filled with a lot of data that is redundant and has low reusability.
+3. The query could be persisted as a **view**, which is instructions for running a specific query. If the underlying data changes, you will always get a query result based on the new data. The main disadvantage is that for a time-consuming query, you have to take the time hit every time you access the data. (A solution to this is a **materialized view**, but other than mentioning this so that you know about it, we won't pursue it further.)
+
+We will use option 3, creating a view. The statement looks exactly like our last query, except that it starts with `CREATE VIEW <view_name> AS ...`. We also omit the `LIMIT`, because we do want all Census tracts in our result for mapping purposes.
+
+```sql
+CREATE VIEW vw_phila_accidents_by_tract AS
+SELECT c.*, count(*) AS accident_count
+FROM philadata3652 p LEFT JOIN census3652 c 
+    ON ST_Intersects(c.geom, p.geom)
+GROUP BY c.gid;
+```
+
+If you go to QGIS, you can now see this view as another spatial layer in the database, add it to the Canvas, and make a choropleth map of the accidents. You can also export it to other formats such as GeoPackage or shapefile using QGIS, ogr2ogr, or other tools.
+
+When you are through working with `psql`, use `\q` to quit.
+
