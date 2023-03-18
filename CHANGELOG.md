@@ -18,9 +18,11 @@ Repo forked from Prof. Xiaojiang Li's original course repo at <https://github.co
 
 ## Lab Exercise Changes
 
-1. Environment YML file provided for creation of `geospatial` conda environment with all packages necessary for the semester. `!pip install` statements removed from all lab exercises.
-    * Note that conda environment includes boto3 and smart_open, before I figured out that these are never used locally. They are only ever used in an AWS instance.
-2. Formatted strings replaced with f-strings throughout. (Any that have not been replaced are oversights.)
+1. Environment YML file provided for creation of `geospatial` conda environment with all packages necessary for the semester.
+    
+    > Note that conda environment includes boto3 and smart_open, before I figured out that these are never used locally. They are only ever used in an AWS instance.
+2. Removed `!pip install` statements from all lab exercises.
+3. Formatted strings replaced with f-strings throughout. (Any that have not been replaced are oversights.)
 
 ### 1, 2, 3
 
