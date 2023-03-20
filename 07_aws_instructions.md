@@ -150,7 +150,7 @@ Now that you have installed Python, you can confirm that you can connect to the 
 ```python
 import boto3
 s3 = bot3.resource("s3")
-for bucket in s3client.buckets.all():
+for bucket in s3.buckets.all():
     print(bucket.name)
 
 ```
