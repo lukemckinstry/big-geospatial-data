@@ -50,6 +50,7 @@ This lab exercise is not terribly complex and can probably be combined with Lab 
 1. Instructions created in Markdown from lecture slides and previously recorded video.
 2. S3 access provided by IAM role attached to EC2 instance. No longer need to install AWS CLI or use `aws configure` to set up S3 access.
 3. File upload/download via WinSCP instead of `scp` at the command line.
+4. Remote Jupyter notebook port forwarding changes from `8888:localhost:8157` to `8157:localhost:8888`. I think the purpose of using port forwarding in this instance is to avoid claiming the local `8888` port in case the student wants to run an actual local Jupyter server on the default port. There is no conflict for the remote `8888` port, so starting the remote server on a different port doesn't seem terribly useful.
 
 Recommend requiring students to create AWS account and set up EC2 instance and S3 buckets prior to class. Connecting to Jupyter notebook server running in EC2 is a little more complex and can be demoed in class.
 
