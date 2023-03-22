@@ -134,7 +134,9 @@ Settings in the dialog should look like this. More explanation follows.
 
 **NOTE:** these are *not* SQL commands.
 
-When you created your `geospatial` conda environment, conda also installed a handful of command line tools. We are going to demonstrate two of them ogrinfo and ogr2ogr, which are used to display information on vector data sources and convert between vector data formats.
+When you created your `geospatial` conda environment, conda also installed a handful of command line tools. We are going to demonstrate two of them, ogrinfo and ogr2ogr, which are used to display information on vector data sources and convert between vector data formats.
+
+> **WARNING FOR WINDOWS USERS:** As of March 2023, ogrinfo and ogr2ogr on not working properly when run in PowerShell due to problems with the PROJ library (<https://github.com/conda-forge/pyproj-feedstock/issues/130>). For this section, please run all commands in Anaconda Prompt (Miniconda), ***not***  Anaconda PowerShell Prompt (Miniconda). Everything should be working correctly on Mac or Linux, and you should just use the usual terminal application for your OS. These notes also only apply to those using Anaconda for environment management. If you have installed Python, PyProj, and/or PROJ another way, I have no information as to whether ogrinfo and other utitlities dependent on PROJ will work for you. This problem is likely to go away as other projects accommodate changes to the PROJ library.
 
 In Anaconda Prompt, activate the `geospatial` environment if it is not already activated. (You might want to open a new terminal window, as we will need to use `psql` again shortly.) 
 
@@ -152,7 +154,7 @@ INFO: Open of `PG:host=localhost port=5433 user=docker password=docker dbname=gi
 1: census3652 (Multi Polygon)
 ```
 
-If you have uploaded other data, you may see more results in the list
+If you have uploaded other data, you may see more results in the list.
 
 Now let's get information on the data set that we want to import, `philadata3652.gpkg`. Make sure that your working directory is the course repository. The statement below uses to relative paths to find `philadata3652.gpkg` in the `data` directory of the current directory. If your current working directory is different, you will have to either change directories or adjust the path in the command.
 
