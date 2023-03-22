@@ -144,12 +144,20 @@ Add can add this statement to the end of your script to export the image to Goog
 ```javascript
 Export.image.toDrive({
   image: thres,
-  description: vegcover',
+  description: "vegcover",
   scale: 10
 });
 ```
 
+Note that the clipped raster image for Philadelphia is too large. The export creates a task in the Task pane, but when I click Run, the export fails with the message:
 
+> Error: Export too large: specified 8030040147504 pixels (max: 100000000). Specify higher maxPixels value if you intend to export a large area. (Error code: 3)
+
+If you would like to experiment with this, you can upload a smaller mask (a neighborhood or Census tract in Philadelphia). You do not have to do this to complete the assignment.
+
+## Deliverables
+
+The final script finds tree canopy (vegetation, NDVI > 0) for Philalphia. Pick a city (other than Philadelphia) to explore. Find a shapefile for your city to use as a mask. Change the final script to create an image of the tree canopy for your city. Submit your final script and a screenshot of the result in the Earth Engine Code Editor (script + image display in the map pane).
 
 
 
