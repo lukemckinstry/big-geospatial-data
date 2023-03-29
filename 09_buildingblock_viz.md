@@ -3,31 +3,43 @@
 This week we are going to talk about using Github and publish your webpage online. We have already created interactive choropleth map using localhost, but our webpage is not publicly accessible yet. After this week, we will be able to publish it through github and every other people can see your geoviz. You will be able to visualize half-million building blocks in Philadelphia through Mapbox and host your webpage on Github
 
 ## 1. Prepare the data
-### 1.1 Download the dataset
-You need the building footprint and the land use map in Philadelphia. You can download the `Philadelphia Buildings` and `Philadelphia Planning - Land Use` from the [PASDA website]([https://www.pasda.psu.edu/). A simple way to access the data is to download these data in you AWS terminal using `wget`. First find your dataset in the website, and then right click the link and copy the link address, then use wget to download it. For example, I can `ssh` to my AWS EC2, then type in,
 
-`wget ftp://ftp.pasda.psu.edu/pub/pasda/philacity/data/PhiladelphiaBuildings2017.zip`
+### 1.1 Download the datasets
 
-You can then download the land use map in a similar way. You can check if you have file downloaded, using `ls` in your terminal. If you can see the zip file, then you can unzip these two shapefiles,
-`unzip PhiladelphiaBuildings2017.zip`
+You need the building footprint and the land use layers in Philadelphia. You can download the these from the [PASDA website]([https://www.pasda.psu.edu/). A simple way to do so is to use `wget` your AWS terminal (or other Linux environment).
 
-`unzip PhillyPlanning_Land_Use.zip`
+The Philadelphia building data summary can be viewed at <https://www.pasda.psu.edu/uci/DataSummary.aspx?dataset=146>. If you right-click the Download link, you will see that the dataset is available at <https://www.pasda.psu.edu/download/philacity/data/PhiladelphiaBuildings2017.zip>. (Alterntively, the datasets can be downloaded from the FTP server at <ftp://ftp.pasda.psu.edu/pub/pasda/philacity/data/PhiladelphiaBuildings2017.zip>.)
 
-You can then use the Rtree to do the intersection of the building footprint and land use map to assign land use information to the building footprint. You are not required to do this, but if you can finish this part in Python and submit your notebook you will get extra two points.
+First, create a folder to hold your data. Assuming you are at the root folder of your EC2 instance, create and navigate into the folder:
 
-If you don't want to do that, you can download the shapefile I prepared from [here](https://drive.google.com/file/d/1UZB-1zH0vh37ALYfojm31I9pA_Azkouh/view?usp=sharing).
+```sh
+mkdir data
+cd data
+```
 
-### 1.2 Convert the land use map into geojson file
-In this lab, we are going to use Mapbox to visualize the building block shapefile. However, on web-based GIS system, shapefile is not a well-supported format. Therefore, we need to convert the shapefile into other format for visualization. The first step to do the conversion is to convert shapefile into geojson file, we nee to install gdal command in our EC2, 
-`sudo apt-get update`
+We need to download this dataset, unzip it, and remove the ZIP (so that we don't take up too much space in our cloud instance).
 
-`sudo apt install gdal-bin`
+```sh
+wget ftp://ftp.pasda.psu.edu/pub/pasda/philacity/data/PhiladelphiaBuildings2017.zip
+unzip PhiladelphiaBuildings2017.zip
+rm PhiladelphiaBuildings2017.zip
+```
 
-`sudo add-apt-repository ppa:ubuntugis/ppa
-`
+You can copy the `wget` command to your terminal. I recommend typing in the `unzip` and `rm` commands and using **tab completion** to avoid typing the full filenames. This may seem pedantic, but as practicing typing out the commands, and in particular practicing using tab completion, will help you become more comfortable working at the command line.
 
-For more details about installing the gdal command check this [link] (https://mothergeo-py.readthedocs.io/en/latest/development/how-to/gdal-ubuntu-pkg.html).
+Now go back to PASDA and find the download link for the Philadelphia Planning - Land Use dataset. (The filename should be "PhillyPlanning_Land_Use.zip".) Download and unzip this file as well.
 
+<!--You can then use the Rtree to do the intersection of the building footprint and land use map to assign land use information to the building footprint. You are not required to do this, but if you can finish this part in Python and submit your notebook you will get extra two points.
+
+If you don't want to do that, you can download the shapefile I prepared from [here](https://drive.google.com/file/d/1UZB-1zH0vh37ALYfojm31I9pA_Azkouh/view?usp=sharing).-->
+
+### 1.2 Copy Land Use Codes to the Buildings and Convert to GeoJSON
+
+Use the R-tree method that we learned in Lab 3 to add the land use to the buildings layer. ***In most cases, the building footprints do not fall cleanly within a parcel in the land use layer.*** You only want to assign one land use to each building, so you will have to determine a method to determine the "best" land use class for each. The easiest will be to use the centroid of the building footprint. A more complex one would be to do a spatial intersection and assign a land use based on the majority of the buildings area. However, in many cases, adjacent parcels have the same land use, so for our present purposes we do not have to worry too much about this.
+
+The fields that you are interested in copying are "C_DIG1", "C_DIG2", and "C_DIG3", which show the 1-, 2-, and 3-digit codes for the parcel land use. Metadata showing the land use codes is available at <https://metadata.phila.gov/#home/datasetdetails/5543864420583086178c4e74/>. An example from the metadata shows that the codes are usually represented as "Example: 1= Residential, 1.2 = Residential Medium Density, and 1.2.1 = Residential Rowhouse." However, in the land use layer, the fields are integers and the points are omitted, so these would appear as `1`, `12`, and `121`. Keep them as integers when you copy them.
+
+In this lab, we are going to use Mapbox to visualize the building block shapefile. However, on web-based GIS system, shapefile is not a well-supported format. Therefore, when doing the spatial join, you should export the new dataset using the driver `"GeoJSON"`. *If you do not do this,* you can use ogr2ogr to convert the building layer to GeoJSON. Remember that ogr2ogr is available in your `geospatial` conda environment.
 
 When you install the command tool successfully, you can then use this command to convert your 	`PhiladelphiaBuildings2017.shp` to a geojsonfile. 
 
@@ -49,9 +61,9 @@ We are going to use mapbox to visualize the building blocks in Philadelphia. Map
 
 For more instructions about this, check this [link](https://gist.github.com/ryanbaumann/e5c7d76f6eeb8598e66c5785b677726e)
 
-
+```
 tippecanoe -ac -an -l buildings -A “© Building land use types by Xiaojiang Li” -o buildings.mbtiles buildings_ft.geojson
-
+```
 
 
 ## 2. Visualize in Mapbox
