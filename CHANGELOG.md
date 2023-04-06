@@ -56,4 +56,40 @@ Recommend requiring students to create AWS account and set up EC2 instance and S
 
 ### 8. Google Earth Engine
 
-Forthcoming.
+New markdown file 08_google_earth_engine.md created from instructions in PowerPoint lecture notes.
+
+### 9. Visualizing a Half Million Building Footprints on the Web
+
+Some editing of first part of instructions. Added color suggestions for land use choropleth based on APA's Land Based Classification (LBCS) Standards.
+
+This exercise needs review. There is a significant amount of data preparation which delays getting to the interesting part, which is using MapBox Studio to style a map and making the end result publicly available via GitHub Pages. Furthermore the join process takes inordinately long. Running on my laptop (i7 processor), the building-landuse spatial join using an Rtree was taking 5 seconds per building. If I had let it continue to run, it would have taken a month to join all the features. On AWS t2.micro was taking 11 seconds per building. AWS was not only slower, it is not crucial to this exercise *except for the use of tippecanoe to create the mbtiles*. The file sizes also means that many students who attempted this were running out of space in their EC2 instance, so to make this work you would probably have to put the data in S3 buckets.
+
+A pre-joined shapefile at <https://drive.google.com/file/d/1UZB-1zH0vh37ALYfojm31I9pA_Azkouh/view?usp=sharing> referred to by Xiaojiang in the earlier version of this exercise was not available in Spring 2023.
+
+Note that I was able to (mostly) do the spatial join in a few hours using PostGIS. After uploading and indexing both the buildings and land use layer, I ran the following PostGIS query:
+
+```sql
+SELECT b.area, b.base_hgt, b.avg_hgt, b.max_hgt, b.bin, l.c_dig1, l.c_dig2, l.c_dig3, st_transform(b.geom, 4326) 
+FROM phl_building_2017 b LEFT JOIN phl_landuse_2016 l 
+    ON ST_Intersects(ST_PointOnSurface(b.geom), l.geom)
+```
+
+I actually ran the query at the command line in an `ogr2ogr` statement to export directly to GeoJSON. The full statement was:
+
+```sh
+ogr2ogr -f "GeoJSON" phl_buildings.geojson PG:"host=localhost port=5433 dbname=gis user=docker password=docker" -sql "SELECT b.area, b.base_hgt, b.avg_hgt, b.max_hgt, b.bin, l.c_dig1, l.c_dig2, l.c_dig3, st_transform(b.geom, 4326) FROM phl_building_2017 b LEFT JOIN phl_landuse_2016 l ON ST_Intersects(ST_PointOnSurface(b.geom), l.geom)"
+```
+
+Requiring the students to do the spatial join is a major roadblock. Some possible changes:
+
+1. Provide the students an extract of one neighborhood in Philly prior to doing the spatial join (or perhaps have them clip the data themselves in Python, QGIS, ogr2ogr, or PostGIS, but test to make sure the processing time for the clipping operation is reasonable).
+2. Provide the students the joined GeoJSON, and have them use tippecanoe in AWS prior to moving on to MapBox and GitHub Pages.
+3. Provide the students the mbtiles and skip using AWS entirely.
+
+### 10. Machine Learning and NAIP
+
+No significant changes.
+
+#### 11. Two Demonstration Notebooks
+
+No changes. Note that necessary package `pysolar` used in shadow-casting-cpu.ipynb is installed in course conda environment. If this exercise is removed or altered, that should probably be removed from the requirements file.

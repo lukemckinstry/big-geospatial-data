@@ -2,6 +2,8 @@
 
 This week we are going to talk about using Github and publish your webpage online. We have already created interactive choropleth map using localhost, but our webpage is not publicly accessible yet. After this week, we will be able to publish it through github and every other people can see your geoviz. You will be able to visualize half-million building blocks in Philadelphia through Mapbox and host your webpage on Github
 
+> WARNINGS: This exercise needs review. There is a significant amount of data preparation which delays getting to the interesting part, which is using MapBox Studio to style a map and making the end result publicly available via GitHub Pages. The spatial join necessary to complete this lab takes 5-11 seconds to process in Python, or 1-2 months for the half million blocks. It should not be attempted. See the CHANGELOG for more information.
+
 ## 1. Prepare the data
 
 ### 1.1 Download the datasets
@@ -43,33 +45,67 @@ In this lab, we are going to use Mapbox to visualize the building block shapefil
 
 When you install the command tool successfully, you can then use this command to convert your 	`PhiladelphiaBuildings2017.shp` to a geojsonfile. 
 
-`ogr2ogr -f GeoJSON -t_srs crs:84 buildings_ft.geojson building_ft_lu.shp`
+```sh
+ogr2ogr -f GeoJSON -t_srs crs:84 buildings_ft.geojson building_ft_lu.shp
+```
 
 
 ### 1.3 Convert the geojson file into mbtile file
 We are going to use mapbox to visualize the building blocks in Philadelphia. Mapbox has developed an efficient format to using tiling system to visualize big spatial data. So, we are going to convert the geojson file into mbtiles. Here, you need to tool of `tippecanoe `
 
-`sudo apt-get install build-essential libsqlite3-dev zlib1g-dev`
-
-`git clone https://github.com/mapbox/tippecanoe.git`
-
-`cd tippecanoe`
-
-`make`
-
-`sudo make install`
+```sh
+sudo apt-get install build-essential libsqlite3-dev zlib1g-dev
+git clone https://github.com/mapbox/tippecanoe.git
+cd tippecanoe
+make -j
+sudo make install
+```
 
 For more instructions about this, check this [link](https://gist.github.com/ryanbaumann/e5c7d76f6eeb8598e66c5785b677726e)
 
-```
-tippecanoe -ac -an -l buildings -A “© Building land use types by Xiaojiang Li” -o buildings.mbtiles buildings_ft.geojson
+```sh
+tippecanoe -ac -an -l buildings -A "© Building land use types by Xiaojiang Li" -o buildings.mbtiles buildings_ft.geojson
 ```
 
 
 ## 2. Visualize in Mapbox
-Follow the instruction on My Medium [blog](https://gis-jiang.medium.com/map-choropleth-map-of-half-million-building-footprints-using-mapbox-99b378a14226). You need first to upload created mbtile file to Mapbox studio. Then write some JavaScript code to create your web-based map. This is not Geovisualization class, I am not going to show you too much about how to use JS for create web-based map, please just follow the blog and create your web page.  
+Follow the instruction on My Medium [blog](https://gis-jiang.medium.com/map-choropleth-map-of-half-million-building-footprints-using-mapbox-99b378a14226). You need first to upload created mbtile file to Mapbox studio. Then write some JavaScript code to create your web-based map. This is not Geovisualization class, I am not going to show you too much about how to use JS for create web-based map, please just follow the blog and create your web page.
 
+Note the following tips or changes:
 
+When you get to the Styles section, there is no longer a "Basic" template. Since we want the building footprints to stand out, choose the "Monochrome" template, and the variation (color palette) you prefer. (Xiaojiang's instructions use a Dark variation.)
+
+How to your layer to the map is not terribly obvious. In the left-hand panel click the Layers tab, then click the <key>+</key> sign for Add new layer. Then click the Source dropdown. Your source should appear in the list, but if you don't see it, filter based on your file name, which will be based on the name of the `mbtiles` file you uploaded, plus a suffix (e.g. `phl_buildings-xxxxx`). The map will probably not be centered on your layer. Click "Go to data" in the lower right.
+
+Choropleth styling is nonintuitive. For categorical styling, you need to select the layer on the left, then Color. You then have to add each value individually and assign a color to it. (There doesn't seem to be a way to add all categorical values and default colors as in desktop GIS.) Choose "Style with data conditions", then pick the one-digit land use field "C_DIG1". Then pick "+ Add another condition". You will have to pick a specific value, then assign a color. I have provided the following colors based on the American Planning Association's [Land Based Classification (LBCS) Standards](https://www.planning.org/lbcs/standards/). It will be easiest to just copy the color hex codes and paste them as text into the MapBox style interface, rather than selecting a value from the color picker or pasting in three separate RGB or HSV values.
+
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+| C_DIG1 | Description               | LBCSCode | Term                                                        | RGB Code Hex | Color Name         |
++========+===========================+==========+=============================================================+==============+====================+
+| 1      | Residential               | 1000     | Residential activities                                      | #FFFF00      | yellow             |
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+| 2      | Commercial                | 2000     | Shopping, business, or trade activities                     | #FF0000      | red                |
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+| 3      | Industrial                | 3000     | Industrial, manufacturing, and waste-related activities     | #A020F0      | purple             |
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+| 4      | Civic/Insitution          | 4000     | Social, institutional, or infrastructure-related activities | #0000FF      | blue               |
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+| 5      | Transportation            | 5000     | Travel or movement activities                               | #BEBEBE      | gray               |
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+| 6      | Culture/Recreation/Active | 7000     | Leisure activities                                          | #90EE90      | light green        |
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+| 7      | Park/Open Space           | 8000     | Natural resources-related activities                        | #228B22      | forest green       |
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+| 8      | Water                     |          | No LCBS Classification                                      | #A7CDF2      | light blue (water) |
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+| 9      | Vacant/Other/Unknown      | 9000     | No human activity or unclassifiable activity                | #FFFFFF      | white              |
++--------+---------------------------+----------+-------------------------------------------------------------+--------------+--------------------+
+
+When I was done with the adding these colors, the style interface looked like this:
+
+![](images/mapbox_choropleth.png)\ 
+
+When you are done hit Publish in the upper right.
 
 ## 3. Github and Git
 GitHub is website that provides hosting for software development version control using Git. Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency. GitHub is not only a code sharing and social networking site for developers. It is also a web hosting site.  Below I have outlined how to host spatial data and a web application from GitHub.  This workflow is perfect for small applications. 
