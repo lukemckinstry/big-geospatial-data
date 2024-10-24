@@ -9,6 +9,7 @@ Repo forked from Prof. Xiaojiang Li's original course repo at <https://github.co
 ## Repository Changes
 
 * File hierarchy flattened---all Jupyter notebooks or instructional guides moved to root folder.
+    * Exception is Lab 1. The lab1-basics-python-spatial-programming folder with setup instructions for Anaconda and Jupyter notebook has been renamed setup. The Lab 1 notebook has been moved to the root folder.
 * All input data moved to /data folder. No exercise-specific data subfolders.
 * All output directed to /output folder which is excluded from repo via .gitignore.
 * Some input data is too large to host in repo, and students must download directly. All scripts have been modified to find such files in the /output folder so that it is excluded from repo.
@@ -50,7 +51,8 @@ This lab exercise is not terribly complex and can probably be combined with Lab 
 1. Instructions created in Markdown from lecture slides and previously recorded video.
 2. S3 access provided by IAM role attached to EC2 instance. No longer need to install AWS CLI or use `aws configure` to set up S3 access.
 3. File upload/download via WinSCP instead of `scp` at the command line.
-4. Remote Jupyter notebook port forwarding changes from `8888:localhost:8157` to `8157:localhost:8888`. I think the purpose of using port forwarding in this instance is to avoid claiming the local `8888` port in case the student wants to run an actual local Jupyter server on the default port. There is no conflict for the remote `8888` port, so starting the remote server on a different port doesn't seem terribly useful.
+4. Remote Jupyter notebook port forwarding changes from `8888:localhost:8157` to `8157:localhost:8888`. I think the intended purpose of using port forwarding is to avoid claiming the *local* `8888` port so the student can simultaneously connect to the remote Jupyter server while also running a local Jupyter server on the default port. There is no conflict for port `8888` on the *remote* server, so starting the remote server on a different port doesn't seem terribly useful.
+5. Slideshow Lab5-Geog 573 Cloud Computing- Spring2020.pdf removed. This was from an outside course and largely redundant with material in this lab. The only new part was a few slides on using Hive and Hadoop to run Postgres queries in AWS. If that topic will be introduced, it should be integrated into the main lab.
 
 Recommend requiring students to create AWS account and set up EC2 instance and S3 buckets prior to class. Connecting to Jupyter notebook server running in EC2 is a little more complex and can be demoed in class.
 
@@ -62,7 +64,7 @@ New markdown file 08_google_earth_engine.md created from instructions in PowerPo
 
 Some editing of first part of instructions. Added color suggestions for land use choropleth based on APA's Land Based Classification (LBCS) Standards.
 
-This exercise needs review. There is a significant amount of data preparation which delays getting to the interesting part, which is using MapBox Studio to style a map and making the end result publicly available via GitHub Pages. Furthermore the join process takes inordinately long. Running on my laptop (i7 processor), the building-landuse spatial join using an Rtree was taking 5 seconds per building. If I had let it continue to run, it would have taken a month to join all the features. On AWS t2.micro was taking 11 seconds per building. AWS was not only slower, it is not crucial to this exercise *except for the use of tippecanoe to create the mbtiles*. The file sizes also means that many students who attempted this were running out of space in their EC2 instance, so to make this work you would probably have to put the data in S3 buckets.
+This exercise needs review. There is a significant amount of data preparation which delays getting to the interesting part, which is using MapBox Studio to style a map and making the end result publicly available via GitHub Pages. Furthermore the join process takes inordinately long. Running on my laptop (i7 processor), the building-landuse spatial join using an Rtree was taking 5 seconds per building. If I had let it continue to run, it would have taken a month to join all the features. On AWS t2.micro was taking 11 seconds per building. AWS was not only slower, it is not crucial to this exercise *except for the use of tippecanoe to create the mbtiles*. The file sizes also mean that many students who attempted this were running out of space in their EC2 instance, so to make this work you would probably have to put the data in S3 buckets.
 
 A pre-joined shapefile at <https://drive.google.com/file/d/1UZB-1zH0vh37ALYfojm31I9pA_Azkouh/view?usp=sharing> referred to by Xiaojiang in the earlier version of this exercise was not available in Spring 2023.
 
@@ -92,4 +94,4 @@ No significant changes.
 
 #### 11. Two Demonstration Notebooks
 
-No changes. Note that necessary package `pysolar` used in shadow-casting-cpu.ipynb is installed in course conda environment. If this exercise is removed or altered, that should probably be removed from the requirements file.
+No changes. Note that necessary package `pysolar` used in shadow-casting-cpu.ipynb is installed in course conda environment. If this exercise is removed or altered, that package should probably be removed from the requirements file.
