@@ -39,7 +39,7 @@ The packaging team from Anaconda, Inc., packages a multitude of packages and pro
  - add conda-forge `conda config --append channels conda-forge`
 
 ## 4. Create a Customized Virtual Environment
-1. Create a customized virutal environment called `geospatial`, `conda create --name geospatial -c conda-forge numpy shapely matplotlib rasterio fiona pandas ipython pyproj gdal jupyter geopandas`. Using this command, you can install most needed modules in this class. It is pretty straightforward to install the modules you need in Anaconda. In most cases just type in `conda install name_module`.
+1. Create a customized virutal environment called `geospatial`, `conda create --name geospatial -c conda-forge numpy shapely matplotlib rasterio fiona pandas ipython pyproj gdal rtree jupyter geopandas`. Using this command, you can install most needed modules in this class. It is pretty straightforward to install the modules you need in Anaconda. In most cases just type in `conda install name_module`.
 
 ## 5. Start Jupyter Notebook and write Python code
 Now we have the required environment ready. Let's start the `Jupyter Notebook` and then write your Python code. 
