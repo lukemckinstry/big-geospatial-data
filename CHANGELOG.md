@@ -7,6 +7,9 @@ Luke McKinstry
  * added Anaconda setup instructions for Linux (command line)
  * add instructions to add conda-forge channel and use it to create customized virtual environment
 
+## Repository changes
+ * added `.gitkeep` to `/output` folder so it's there the first time user tries to write to it
+
 ## 2023 Spring
 Lee Hachadoorian\
 Lee.Hachadoorian@temple.edu
