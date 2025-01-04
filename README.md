@@ -12,9 +12,9 @@ Most of the materials in this repo are Jupyter Notebooks. You can create a Pytho
 ## 1. Configure Environment and Python basics
 
 For the most part this course assumes you are working in an Anaconda Python environment and familiar with Jupyter notebooks. If you need to install Anaconda, you can follow the instructions in #1. I have a preference for Miniconda (smaller default installation size, and you can add anything from Anaconda that you are missing later). I will introduce Jupyter notebooks in class, but #2 provides a short guide. Most of the students taking this course will already be familiar with basic Python, including importing and plotting spatial data. #3 provides a brief refresher.
-
-1. [Install Anaconda and configure Python module](lab1-basics-python-spatial-programing/install-anaconda.md)
-2. [Become familiar with Jupyter Notebook](lab1-basics-python-spatial-programing/jupyter-notebook.md)
+lab1-basi
+1. [Install Anaconda and configure Python module](setup/install-anaconda.md)
+2. [Become familiar with Jupyter Notebook](setup/jupyter-notebook.md)
 3. [Python basics](01_basics_python_spatial_data.ipynb)
 
 ## 2. Basics of GIS programming

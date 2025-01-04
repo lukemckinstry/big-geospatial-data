@@ -1,6 +1,13 @@
 # CHANGELOG
 
-2023 Spring\
+## 2025 Spring
+Luke McKinstry
+
+## setup
+ * added Anaconda setup instructions for Linux (command line)
+ * add instructions to add conda-forge channel and use it to create customized virtual environment
+
+## 2023 Spring
 Lee Hachadoorian\
 Lee.Hachadoorian@temple.edu
 
