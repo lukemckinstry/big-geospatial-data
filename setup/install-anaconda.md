@@ -48,6 +48,7 @@ Now we have the required environment ready. Let's start the `Jupyter Notebook` a
 
 2. Start the Jupyter Notebook by typing `jupyter notebook` in the terminal. Then you web browser will start automatically and guide you to the notebook. You can then write Python code over there. 
 
+3. Turn off the environment by typing `conda deactivate`, delete the environment by typing `conda env remove -n <environment-name> --all`.
 
 
 
