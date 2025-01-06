@@ -10,6 +10,12 @@ Luke McKinstry
 ## Repository changes
  * added `.gitkeep` to `/output` folder so it's there the first time user tries to write to it
 
+### 4. Raster Data Operations
+
+Added `04_imagery_download_instructions.md`, `04_landsat_preprocessing` & `04_raster_landsat_rastrerio.ipynb` to download a Landsat scene and calculate NDVI using rasterio and numpy as before. I ran into a pesky bug using rasterio to extract one band from a multiband file and displaying it with Matplotlib. It appears to be a memory overflow, so I designed the exercise to work around it. I plan to submit a issue to rasterio.
+
+There are other elements of the old exercise 4 that I have not recreated but hope to: clipping, zonal statistics, repetitive download and processing via API (https://m2m.cr.usgs.gov/)
+
 ## 2023 Spring
 Lee Hachadoorian\
 Lee.Hachadoorian@temple.edu
