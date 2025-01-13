@@ -1,9 +1,9 @@
 # GUS 8061 - Big Geospatial Data
 
-**Lee Hachadoorian**\
-**Spring 2023**
+**Luke McKinstry**\
+**Spring 2025**
 
-Based on materials created by Xiaojiang Li, PhD, Department of Geography and Urban Studies, Temple University, <http://www.urbanspatial.info/>. Forked from Prof. Li's Spring 2022 course repo at <https://github.com/xiaojianggis/big-spatial-data/>.
+Based on materials created by Xiaojiang Li, PhD, Department of Geography and Urban Studies, Temple University, <http://www.urbanspatial.info/> and Lee Hachadoorian PhD, Department of Geography and Urban Studies, Temple University. Forked from Prof. Li's Spring 2022 course repo <https://github.com/xiaojianggis/big-spatial-data/> and Prof Hachadoorian's 2024 course repo <https://github.com/leehach/big-geospatial-data>
 
 **UNDER CONSTRUCTION:** Some of the materials are being altered. Numbering generally corresponds to course weeks. Associated assignments appear in Canvas. See my notes regarding the state of each notebook, as well as notes below regarding preparing your environment, obtaining data, and what changes I am making and why.
 
@@ -12,14 +12,13 @@ Most of the materials in this repo are Jupyter Notebooks. You can create a Pytho
 ## 1. Configure Environment and Python basics
 
 For the most part this course assumes you are working in an Anaconda Python environment and familiar with Jupyter notebooks. If you need to install Anaconda, you can follow the instructions in #1. I have a preference for Miniconda (smaller default installation size, and you can add anything from Anaconda that you are missing later). I will introduce Jupyter notebooks in class, but #2 provides a short guide. Most of the students taking this course will already be familiar with basic Python, including importing and plotting spatial data. #3 provides a brief refresher.
-
-1. [Install Anaconda and configure Python module](lab1-basics-python-spatial-programing/install-anaconda.md)
-2. [Become familiar with Jupyter Notebook](lab1-basics-python-spatial-programing/jupyter-notebook.md)
+lab1-basi
+1. [Install Anaconda and configure Python module](setup/install-anaconda.md)
+2. [Become familiar with Jupyter Notebook](setup/jupyter-notebook.md)
 3. [Python basics](01_basics_python_spatial_data.ipynb)
 
 ## 2. Basics of GIS programming
 
-**These notebooks are short and will be combined into one longer notebook.**
 
 1. [Python spatial module ecosystem](02-1_read_shapefile_gdal.ipynb)
 2. [Using Geopandas to read shapefiles and do spatial join](02-3_geopandas_spatial_analysis.ipynb)
@@ -31,17 +30,16 @@ The exercise [Using Fiona to manipulate shapefiles and do spatial analysis](03_s
 1. Read Shapefile using Fiona
 2. Using Fiona and Shapely to overlay shapefiles
 
-## 4. Raster data operations
+## 4. Raster Data Operations
 
-**Currently nonworking. Need to obtain certificate file for NAIP download.**
-
-1. [Download NAIP images automatically](04_naip_downloader.ipynb)
-2. [Using Rasterio to manipulate geo-reference raster data](04_raster_data_manipulation.ipynb)
+1. [Download NAIP images](04_imagery_download_instructions.md)
+2. [Preprocess Landsat Imagery](04_landsat_preprocessing.ipynb)
+3. [Using Rasterio to manipulate geo-reference raster data](04_raster_data_manipulation.ipynb)
     * Mosaic, mask, clip
     * Calculate NDVI
-    * Overlay vector data on raster (zonal statistics)]
+    * Overlay vector data on raster (zonal statistics)
 
-## 5. Spatial database
+## 5. Spatial Database
 
 1. Install Postgres/PostGIS
 2. SQL Basics

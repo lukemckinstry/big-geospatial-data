@@ -1,13 +1,18 @@
 name: geospatial
 channels:
-  - defaults
+  - conda-forge
 dependencies:
-  - python=3.8
+  - python=3.11
+  - numpy
+  - shapely
   - spyder
   - pyqtwebengine
+  - pandas
   - geopandas
   - rasterio
+  - fiona
   - descartes
+  - ipython
   - jupyter
   - matplotlib
   - sqlalchemy
@@ -17,5 +22,6 @@ dependencies:
   - scikit-learn-intelex
   - progressbar2
   - tqdm
+  - gdal
   # - conda-forge::pysolar
 prefix: /home/user/miniconda3/envs/geospatial
