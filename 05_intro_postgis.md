@@ -154,6 +154,11 @@ INFO: Open of `PG:host=localhost port=5433 user=docker password=docker dbname=gi
 1: census3652 (Multi Polygon)
 ```
 
+> **WARNING FOR GDAL 3.10.1:** If you get the error `ogrinfo failed - unable to open 'PG:host=localhost port=5432 dbname=gis user=docker password=docker'`. First check that the GDAL PostgreSQL / PostGIS driver was installed correctly by running `ogrinfo --formats | grep "PostgreSQL"`. If you do not see `PostgreSQL -vector- (rw+): PostgreSQL/PostGIS` listed, then the driver was not installed correctly. This is due to an error in the conda-forge `gdal` package, create a new environment with the `libgdal` package instead. Leave the `geospatial` conda environment by running `conda deactivate geospatial`. Then create the new environment:
+ - `conda create -n geoenv python=3.8`  # Create a new environment with Python 3.8
+ - `conda activate geoenv`              # Activate the environment
+ - `conda install -c conda-forge libgdal`  # Install libgdal from conda-forge
+
 If you have uploaded other data, you may see more results in the list.
 
 Now let's get information on the data set that we want to import, `philadata3652.gpkg`. Make sure that your working directory is the course repository. The statement below uses to relative paths to find `philadata3652.gpkg` in the `data` directory of the current directory. If your current working directory is different, you will have to either change directories or adjust the path in the command.
@@ -177,8 +182,9 @@ ogr2ogr -f <output format> <destination> <source>
 The output format will be PostgreSQL. The destination will use the same PG connection string that we used as input to ogrinfo above, and the source will be `philadata3652.gpkg` (with the appropriate path).
 
 ```sh
-ogr2ogr -f PostgreSQL PG:"host=localhost port=5433 user=docker password=docker dbname=gis" data/philadata3652.gpkg 
+ogr2ogr -f PostgreSQL PG:"host=localhost port=5433 user=docker password=docker dbname=gis" data/philadata3652.gpkg -t_srs EPSG:3652
 ```
+> **WARNING ** `-t_srs EPSG:3652` ensures that ogr2ogr does not add the wrong SRID to table.
 
 Once the command runs, you can refresh the connection in QGIS DB Manager and preview the table and spatial data.
 
@@ -249,19 +255,19 @@ Now we are ready to run spatial queries against the database tables. The followi
 The first form is more verbose. The second form uses **aliasing** to shorten the name of each table in the `FROM` clause for easier us when it is referenced elsewhere in the query.
 
 ```sql
-SELECT census3652.tractce, count(*)
+SELECT census3652.tract, count(*)
 FROM philadata3652 LEFT JOIN census3652 
     ON ST_Intersects(census3652.geom, philadata3652.geom)
-GROUP BY census3652.tractce;
+GROUP BY census3652.tract;
 ```
 
 And the same query with aliasing, followed by the result:
 
 ```sql
-SELECT c.tractce, count(*)
+SELECT c.tract, count(*)
 FROM philadata3652 p LEFT JOIN census3652 c
     ON ST_Intersects(c.geom, p.geom)
-GROUP BY c.tractce;
+GROUP BY c.tract;
 
 ```
 
@@ -299,10 +305,10 @@ We often want to add more attribute data, specifically, attributes of the contai
 The easiest way to include these additional columns from `census3652` is to add them to the `SELECT` list. Because of the grouping, these columns would have to also be added to the `GROUP BY` clause. We should also alias the output column `count(*)` for clarity. (In the following selection we limit the resultset to 1 just for display purposes.)
 
 ```sql
-SELECT c.tractce, c.countyfp, c.statefp, c.geom, count(*) AS accident_count
+SELECT c.tract, c.county, c.state, c.geom, count(*) AS accident_count
 FROM philadata3652 p LEFT JOIN census3652 c 
     ON ST_Intersects(c.geom, p.geom)
-GROUP BY c.tractce, c.countyfp, c.statefp, c.geom
+GROUP BY c.tract, c.county, c.state, c.geom
 LIMIT 1;
 ```
 
@@ -314,7 +320,7 @@ There is a shortcut for including additional columns in the display without havi
 SELECT c.*, count(*) AS accident_count
 FROM philadata3652 p LEFT JOIN census3652 c 
     ON ST_Intersects(c.geom, p.geom)
-GROUP BY c.gid
+GROUP BY c.id
 LIMIT 1;
 ```
 
@@ -339,7 +345,7 @@ CREATE VIEW vw_phila_accidents_by_tract AS
 SELECT c.*, count(*) AS accident_count
 FROM philadata3652 p LEFT JOIN census3652 c 
     ON ST_Intersects(c.geom, p.geom)
-GROUP BY c.gid;
+GROUP BY c.id;
 ```
 
 If you go to QGIS, you can now see this view as another spatial layer in the database, add it to the Canvas, and make a choropleth map of the accidents. You can also export it to other formats such as GeoPackage or shapefile using QGIS, ogr2ogr, or other tools.
