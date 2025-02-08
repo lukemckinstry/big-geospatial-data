@@ -55,6 +55,30 @@ Now we have the required environment ready. Let's start the `Jupyter Notebook` a
 ## What Next
 Go to open the test Jupyter Notebook file [link](../01_basics_python_spatial_data.ipynb). You can open the `ipynb` file directly or copy the statment to you newly created notebook.
 
+## Troubleshooting
+You may find you are unable to import libraries into a jupyter notebook that you have installed in your Anaconda environment. You will see messages like `rasterio not found`. It may be the case that ipython and jupyter-notebook do not have the same sys.path as python. To verify, in your jupyter notebook run the following:
+
+```
+import sys
+print(sys.executable)
+print(sys.version)
+```
+And from a terminal running your Anaconda environment run the following:
+
+```
+python --version
+which python
+```
+They should be identical. If they are not you can install the Python kernel for Jupyter to point to your current Anaconda environment.
+```
+conda install ipykernel
+```
+Then add the environment to Jupyter's list of available kernels. `geospatial` is the name of your Anaconda environment. The --display-name is how it will appear in the Jupyter interface.
+```
+python -m ipykernel install --user --name=geospatial --display-name "Python (geospatisl)"
+```
+After this, restart Jupyter Notebook and select the correct kernel (e.g., "Python (myenv)") from the "Kernel" > "Change Kernel" menu.
+
 #### Reference
 1. Jupyter notebook for beginners, https://realpython.com/jupyter-notebook-introduction/
 2. Notebook Basics, https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Notebook%20Basics.html
