@@ -32,12 +32,11 @@ The exercise [Using Fiona to manipulate shapefiles and do spatial analysis](03_s
 
 ## 4. Raster Data Operations
 
-1. [Download NAIP images](04_imagery_download_instructions.md)
-2. [Preprocess Landsat Imagery](04_landsat_preprocessing.ipynb)
-3. [Using Rasterio to manipulate geo-reference raster data](04_raster_data_manipulation.ipynb)
-    * Mosaic, mask, clip
-    * Calculate NDVI
-    * Overlay vector data on raster (zonal statistics)
+1. [Raster Processing with Rasterio](04_raster_processing_rasterio.ipynb)
+    * Single Band Raster
+    * Multi-band Raster
+    * Overlay vector data on raster, clipping, zonal stats
+2. [Manual Data Acquisition](04_manual_data_acquisition.ipynb)
 
 ## 5. Spatial Database
 
