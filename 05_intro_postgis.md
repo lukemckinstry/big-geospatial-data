@@ -155,9 +155,9 @@ INFO: Open of `PG:host=localhost port=5433 user=docker password=docker dbname=gi
 ```
 
 > **WARNING FOR GDAL 3.10.1:** If you get the error `ogrinfo failed - unable to open 'PG:host=localhost port=5432 dbname=gis user=docker password=docker'`. First check that the GDAL PostgreSQL / PostGIS driver was installed correctly by running `ogrinfo --formats | grep "PostgreSQL"`. If you do not see `PostgreSQL -vector- (rw+): PostgreSQL/PostGIS` listed, then the driver was not installed correctly. This is due to an error in the conda-forge `gdal` package, create a new environment with the `libgdal` package instead. Leave the `geospatial` conda environment by running `conda deactivate geospatial`. Then create the new environment:
- - `conda create -n geoenv python=3.8`  # Create a new environment with Python 3.8
- - `conda activate geoenv`              # Activate the environment
- - `conda install -c conda-forge libgdal`  # Install libgdal from conda-forge
+> 1. `conda create -n geoenv python=3.8`  # Create a new environment with Python 3.8
+> 2. `conda activate geoenv`              # Activate the environment
+> 3. `conda install -c conda-forge libgdal`  # Install libgdal from conda-forge
 
 If you have uploaded other data, you may see more results in the list.
 
@@ -352,3 +352,15 @@ If you go to QGIS, you can now see this view as another spatial layer in the dat
 
 When you are through working with `psql`, use `\q` to quit `psql`. Then use `exit` to exit from the Docker container.
 
+### Exercises
+ - Use PostgreSQL and PostGIS queries against the database created in this lab to complete the exercises below. Include your SQL query code along with your solutions.
+
+ 1. What years and months are represented in the traffic accident data?
+ 
+ 2. In each year, summing all months on that year, which census tract had the most traffic accidents?
+
+ 3. In each month, cumulative across years, which census tract had the most traffic accidents?
+ 
+ 4. What is the mean traffic accidents per census tract per month and per year?
+ 
+ 5. What percentage of traffic accidents occured in the 5 most high-incident census tracts cumulative across all months and years?  
