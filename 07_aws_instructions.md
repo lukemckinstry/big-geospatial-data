@@ -2,19 +2,17 @@
 
 These instructions walk you through creating an AWS EC2 instance (Elastic Compute) and S3 instance (Storage), install Anaconda Python, run a remote Jupyter notebook, and perform analysis in the AWS environment.
 
-The instructions are very light on explanation. More context will be provided during class. The instructions are presented twice, once without screenshots, and once with screenshots. Many of the instructions (e.g. "Click 'Blah Blah' link") are fairly straightforward, and can be followed without screenshots, so a quick run-through is provided first. If you have trouble following them, scroll down for a presentation with screenshots. Even if you use the screenshot version the first time, the no-screenshot version will be useful as quick guide after you have run through it once.
-
-## AWS Instructions without Screenshots
+## AWS Instructions
 
 ### Create an AWS Account
 
-Go to <https://aws.amazon.com/> and click Create an AWS Account.
+Go to <https://aws.amazon.com/> and click Create an AWS Account. You will want to create a Root User account.
 
 You do have to provide a credit card, but Amazon comes with 12 months of service at a free tier (low-power machines, small storage containers, etc.). You can choose to pay for certain options, but for this course we will only choose options in the free tier.
 
 I recommend using your Temple email address. If you don't keep your TUmail account active after graduation you will probably want to cancel your AWS account. As we are using AWS for learning purposes, retaining the EC2 instances is not all that importatant. If you go on to use AWS professionally, you can create a new account with an organizational or personal email address in the future.
 
-You will have to verify your email. It will then take a couple of minutes (for me it was less than 2 minutes) for the account to be validated. When you get the validation email, login to AWS using your email and password.
+You will have to verify your email. It will then take a couple of minutes (for me it was less than 2 minutes) for the account to be validated. When you get the validation email, login to AWS using your email and password. AWS provides the option to login as a Root User or IAM User, you should select `Sign in with root user email`.
 
 ### Create an EC2 Instance
 
@@ -24,7 +22,7 @@ You will have to verify your email. It will then take a couple of minutes (for m
 4. Give your key pair a name that will be easy to type in a terminal. I recommend using lowercase letters and avoiding spaces. I chose `big-geospatial-data`. The key pair type can be left at RSA (default), but the file format should be changed to "`.pem` For use with OpenSSH". Do not add tags. Click Create key pair.
 5. The PEM file will automatically download! Find it (may be in Downloads folder, depending on your browser settings) and move it to a place you will be able to remember. You could use your course folder (*NOT* the course repo), or create an `aws` folder in your home directory. This file can give someone access to your Amazon instance, so never store it in a code repository. You don't want to accidentally end up uploading it to GitHub.
 6. Create appropriate permissions on the PEM file. (This is not necessary to create the instance, but will be necessary to connect to it later, so we might as well do it now.) In the terminal (Mac/Linx) or Windows PowerShell, `cd` to the folder with the PEM file.
-    1. **On Mac:** Enter the following command in the terminal:
+    1. **On Mac or Linux:** Enter the following command in the terminal:
         ```sh
         chmod 400 big-geospatial-data.pem
         ````
@@ -38,7 +36,7 @@ You will have to verify your email. It will then take a couple of minutes (for m
 8. Click Launch Instances.
 9. You will be taken to the "Launch an instance" page. Confirm or change the following settings. (Ignore sections not mentioned here.)
     * **Name:** This is the name that will appear in your list of instances, so name it something you will recognize. Naming it after a project or instance specification is common. You could name it "Big Geospatial Data" for this course, or "Ubuntu 22.02" for the operating system we will use, or anything else you would like.
-    * **Application and OS Images:** Click Ubuntu and choose "Ubuntu Server 22.04 LTS (HVM), SSD Volume Type" or the latest free tier eligible version.
+    * **Application and OS Images:** Click Ubuntu and choose "Ubuntu Server 24.04 LTS (HVM), SSD Volume Type" or the latest free tier eligible version.
     * **Instance Type** should default to t2.micro or another free tier eligible instance type.
     * **Key pair (login):** Select the name of key pair that you just created from the dropdown list.
     * **Configure storage:** Increase the storage size to 15 GB. We *may* need additional storage because the Anacoda Python environment will take up at least 4GB on its own. This is half of the 30GB of free tier storage for EBS containers. We will access additional free storage in S3 for our actual analysis data.
@@ -115,7 +113,7 @@ But leave the instance running for now so that we can continue to use it.
 
 We want to run Python in EC2. Before we can do that, we have to install it, and before we install it we have to download it.
 
-We will download and install Miniconda Python. The instructions below use a link which should automatically install the latest version of Python for Linux (Python 3.10 as of March 2023). If this link does not work, go to <https://docs.conda.io/en/latest/miniconda.html> in your web browser and copy the link for the latest version of Miniconda3 Linux 64-bit.
+We will download and install Miniconda Python. The instructions below use a link which should automatically install the latest version of Python for Linux. If this link does not work, go to <https://docs.conda.io/en/latest/miniconda.html> in your web browser and copy the link for the latest version of Miniconda3 Linux 64-bit.
 
 At the remote prompt, enter the following command. The first command downloads the installer, the second command runs the installer, and the third command modifies the remote prompt so that it displays the current conda environment at the beginning of the command line.
 
@@ -149,7 +147,9 @@ Now that you have installed Python, you can confirm that you can connect to the 
 
 ```python
 import boto3
-s3 = bot3.resource("s3")
+
+s3 = boto3.resource('s3')
+
 for bucket in s3.buckets.all():
     print(bucket.name)
 
@@ -206,8 +206,9 @@ I prefer [FileZilla](https://filezilla-project.org/index.php), an open source, c
 
 If you restart the instance, the public DNS will change. You can edit the site settings to add the new public DNS while keeping all of the other settings.
 
-## AWS Instructions with Screenshots
 
+> [!WARNING]
+> Rememeber to stop the ec2 instance when you are finished working.
 
 
 
