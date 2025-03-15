@@ -3,7 +3,7 @@
 1. Go to <https://earthengine.google.com/>.
 2. Click Get Started.
 3. You will be asked to choose a Google Account to login. Please use a personal Gmail to register, not your Temple-affiliated Google Account.
-4. Select Use with a Cloud Project.
+4. Click Register a Noncommercial or Commercial Cloud Project.
 5. Select Unpaid usage, and set the project type to Academic & Research.
 6. Select Create a new Google Cloud Project.
     * If you are using a personal account, select No Organization. This is not a free entry field.
@@ -14,7 +14,7 @@ When you finish you will be taken to the Earth Engine Code Editor. Please take t
 
 ```javascript
 // Load an image.
-var image = ee.Image('LANDSAT/LC08/C01/T1/LC08_044034_20140318');
+var image = ee.Image('LANDSAT/LC08/C02/T1/LC08_044034_20140318');
 
 // Center the map on the image.
 Map.centerObject(image, 9);
@@ -27,7 +27,7 @@ Map.addLayer(image);
 
 ```javascript
 // Load the image from the archive.
-var image = ee.Image('LANDSAT/LC08/C01/T1/LC08_044034_20140318');
+var image = ee.Image('LANDSAT/LC08/C02/T1/LC08_044034_20140318');
 
 // Define visualization parameters in an object literal.
 var vizParams = {bands: ['B5', 'B4', 'B3'], min: 5000, max: 15000, gamma: 1.3};
@@ -42,7 +42,7 @@ Map.addLayer(image, vizParams, 'Landsat 8 false color');
 `ee.ImageCollection` has a `.filterDate` method which is used to restrict images to a specific data range. In the following code, Landsat images are collected for the second have of 2013 and then the median pixel value is take across those images:
 
 ```javascript
-Map.addLayer(ee.ImageCollection('LANDSAT/LC8_L1T')
+Map.addLayer(ee.ImageCollection('LANDSAT/LC08/C02/T1')
     .filterDate('2013-06-01','2013-12-31')
     .median(),
 {'bands': ['B5', 'B4', 'B3'], 'min':6000, 'max':18000});
@@ -54,7 +54,7 @@ Use variables to improve script readability. To define variables in Javascript, 
 
 
 ```javascript
-var landset8 = ee.ImageCollection('LANDSAT/LC8_L1T');
+var landset8 = ee.ImageCollection('LANDSAT/LC08/C02/T1');
 var secondHalf2013 = landset8.filterDate('2013-06-01','2013-12-31');
 var median = secondHalf2013.median();
 
@@ -67,7 +67,7 @@ Map.setCenter( -75.15612903867837, 39.99187073445269, 7);
 
 ## Upload a Shapefile to GEE
 
-You can upload a shapefile to GEE. We will do so with the Philadelphia's city limits and use it as a mask for the raster data. The upload *must be* a shapefile and *must be* in WGS 84 (EPSG:4326). Use QGIS or ogr2ogr to convert city_limit.gpkg to a shapefile and to transform it from Pennsylvania State Plane South (EPSG:2272) to WGS 84 (EPSG:4326). Call the file phila_city_limit.shp. ciStore the converted file in the repo's output folder (which is ignored by git) or another folder outside of the repo.
+You can upload a shapefile to GEE. We will do so with the Philadelphia's city limits and use it as a mask for the raster data. The upload *must be* a shapefile and *must be* in WGS 84 (EPSG:4326). Use QGIS or ogr2ogr to convert city_limit.gpkg to a shapefile and to transform it from Pennsylvania State Plane South (EPSG:2272) to WGS 84 (EPSG:4326). Call the file phila_city_limit.shp. Store the converted file in the repo's output folder (which is ignored by git) or another folder outside of the repo.
 
 In the upper left click the Assets tab, and then New→Table Upload→Shape files. Select the phila_city_limit.shp files. The GEE shapefile uploader is somewhat stupid compared to desktop GIS or GeoPandas in that you have to select all the components of the shapefile. You can't just select the SHP file and have the uploader find the DBF, SHX, etc.
 
