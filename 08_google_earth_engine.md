@@ -157,12 +157,24 @@ If you would like to experiment with this, you can upload a smaller mask (a neig
 
 ## Deliverables
 
-The final script finds tree canopy (vegetation, NDVI > 0) for Philalphia. Pick a city (other than Philadelphia) to explore. Find a shapefile for your city to use as a mask. Change the final script to create an image of the tree canopy for your city. Submit your final script and a screenshot of the result in the Earth Engine Code Editor (script + image display in the map pane).
+1. The final script finds tree canopy (vegetation, NDVI > 0) for Philalphia. Pick a city (other than Philadelphia) to explore. Find a shapefile for your city to use as a mask. Change the final script to create an image of the tree canopy for your city. Submit your final script and a screenshot of the result in the Earth Engine Code Editor (script + image display in the map pane).
 
+2. Visit https://earthengine.google.com/timelapse/ to see examples of timelapse series of satellite imagery using Google Earth Engine. Select one example series and from that series select two samples from different dates. Select a measurement (eg. NDVI, landcover, etc.) and calculate the change from the first image to the second. Prepare a raster showing the delta value between the two images.
 
+The Google Earth Engine Timelapse examples typically use satellite imagery from the Landsat program: 
+ - Landsat 5: Available under LANDSAT/LT05/C01/T1 (Collection 1) or LANDSAT/LT05/C02/T1 (Collection 2).
+ - Landsat 7: Available under LANDSAT/LE07/C01/T1 (Collection 1) or LANDSAT/LE07/C02/T1 (Collection 2).
+ - Landsat 8: Available under LANDSAT/LC08/C01/T1 (Collection 1) or LANDSAT/LC08/C02/T1 (Collection 2).
 
+The timelapse examples may also use:
+ - MODIS: Used for large-scale changes like vegetation health, snow cover, and ocean temperatures.
+ - Sentinel-2: Used for more detailed analysis of land surface changes, such as agriculture, forestry, and urban development.
+ - VIIRS: Used for global-scale monitoring like nighttime lights and active fires.
 
-
+All these datasets are directly accessible in Google Earth Engine. Some research and experimentation will be required to determine:
+ - The source of the satellite imagery in the timelapse series, ie. program (eg. Landsat), collection and tier.
+ - The scene identifier for the targeted sample, eg. path and row.
+ - The acquisition date for the images you wish to compare.
 
 
 
