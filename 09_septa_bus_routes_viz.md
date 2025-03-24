@@ -19,7 +19,7 @@ Download GTFS data for Septa buses
  - Put the script into the `data/google_bus` folder
  - Activate you `geospatial` conda environment
  - Add the geojson package, run `conda install geojson`
- - Run the script `python3 GenerateSimpleRouteShapes.py`. You must run the script from within the directory containing the csv files of the gtfs archive.
+ - Run the script by typing the following command in your terminal `python3 GenerateSimpleRouteShapes.py`. You must run the script from within the directory containing the files of the gtfs archive.
  - The script will output a file called `route_shapes.geojson`.
  - You can inspect the file in QGIS or geojson.io.
 
@@ -70,7 +70,7 @@ body { margin: 0; padding: 0; }
 	// TO MAKE THE MAP APPEAR YOU MUST
 	// ADD YOUR ACCESS TOKEN FROM
 	// https://account.mapbox.com
-	mapboxgl.accessToken = 'YOUR_DEFAULT_MAPBOX_TOKEN_HERE';
+	mapboxgl.accessToken = 'YOUR_TOKEN_HERE';
     const map = new mapboxgl.Map({
         container: 'map',
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
@@ -80,7 +80,7 @@ body { margin: 0; padding: 0; }
     });
 
     map.on('load', () => {
-        map.addSource('septa-routes', {
+        map.addSource('mapbox-terrain', {
             type: 'vector',
             // Use any Mapbox-hosted tileset using its tileset id.
             // Learn more about where to find a tileset id:
@@ -89,10 +89,14 @@ body { margin: 0; padding: 0; }
         });
         map.addLayer(
             {
-                'id': 'route-data',
+                'id': 'terrain-data',
                 'type': 'line',
-                'source': 'septa-routes',
-                'source-layer': 'route_shapes-aa4x18',
+                'source': 'mapbox-terrain',
+                'source-layer': 'YOUR_SOURCE_LAYER_NAME_HERE', // ex: route_shapes-aa4x18
+                'layout': {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
                 'paint': {
                     'line-color': '#ff69b4',
                     'line-width': 1
@@ -111,6 +115,7 @@ body { margin: 0; padding: 0; }
  - Add the tileset ID for your tileset to `url: 'mapbox://YOUR_TILESET_ID_HERE`
    - The instructions for finding this are in the `Upload and Visualize in Mapbox Studio` section above
    - When you add your tileset ID, please the `mapbox://` portion at the start of the string
+ - Change the `source-layer` field to be the name of your tileset. You can find this value in MapBox Studio when you look at the tileset in the Data Manager `ex: route_shapes-aa4x18`.
  - View the application in a web browser, you can do this with right click on `index.html`, select applicaton, and select Chrome or Firefox
 
 
