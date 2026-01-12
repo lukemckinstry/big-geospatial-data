@@ -1,7 +1,7 @@
 # GUS 8061 - Big Geospatial Data
 
 **Luke McKinstry**\
-**Spring 2025**
+**Spring 2026**
 
 Based on materials created by Xiaojiang Li, PhD, Department of Geography and Urban Studies, Temple University, <http://www.urbanspatial.info/> and Lee Hachadoorian PhD, Department of Geography and Urban Studies, Temple University. Forked from Prof. Li's Spring 2022 course repo <https://github.com/xiaojianggis/big-spatial-data/> and Prof Hachadoorian's 2024 course repo <https://github.com/leehach/big-geospatial-data>
 
