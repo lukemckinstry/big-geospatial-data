@@ -96,13 +96,13 @@ You can create your Python environment in whatever way you are comfortable. I pr
 
 If you use pip, all of these packages are available in PyPI.
 
-If you use Anaconda, I have set `python=3.8` to avoid unsatisfiable package conflicts. All of these packages are available in the default conda channel *except* pysolar. The conda environment file has the line `- conda-forge::pysolar` commented out. You can experiment with uncommenting it, but I have found that attempting to install it at environment creation takes an inordinately long time and often fails. Without it, environment creation runs pretty quickly (2-3 minutes). You can install pysolar afterward, and this works consistently (and quickly), even if Anaconda can't figure out how to do it in one go. Resorting to pip for pysolar or any other package seems unnecessary, so long as you are working with Python 3.8. You can install pysolar by activating the new `geospatial` environment and calling `conda install`:
+If you use Anaconda, we have set `python=3.11` to avoid unsatisfiable package conflicts. All of these packages are available in the default conda channel *except* pysolar. The conda environment file has the line `- conda-forge::pysolar` commented out. You can experiment with uncommenting it, but we have found that attempting to install it at environment creation takes an inordinately long time and often fails. Without it, environment creation runs pretty quickly (2-3 minutes). You can install pysolar afterward, and this works consistently (and quickly), even if Anaconda can't figure out how to do it in one go. Resorting to pip for pysolar or any other package seems unnecessary, so long as you are working with Python 3.8. You can install pysolar by activating the new `geospatial` environment and calling `conda install`:
 
 ```
 conda install -c conda-forge pysolar
 ```
 
-Additionally, I have included Spyder (my preferred IDE) and PyQtWebEngine (necessary for Spyder to run, but for some reason not a dependency). If you will stick to the Jupyter Notebooks or prefer another IDE, you can remove or comment out the following lines in the environment file before creating the environment:
+Additionally, this Anaconda environment template includes Spyder (a popular IDE used in other department courses) and PyQtWebEngine (necessary for Spyder to run, but for some reason not a dependency). If you will stick to the Jupyter Notebooks or prefer another IDE, you can remove or comment out the following lines in the environment file before creating the environment:
 
 ```
   - spyder
@@ -124,10 +124,10 @@ If you find a wayward `pip install` in these notebooks, please bring it to my at
 You can download individual notebooks and data files as needed. However, the easiest way to acquire the notebooks and data is to clone this repository:
 
 ```
-https://github.com/leehach/big-geospatial-data.git
+https://github.com/lukemckinstry/big-geospatial-data
 ```
 
-If you don't have Git installed, you can instead [download the repo as a ZIP](https://github.com/leehach/big-geospatial-data/archive/refs/heads/main.zip). Of course, if there are changes, you will have to redownload changed files or the entire repo, whereas if you clone the repo you can update the files with `git pull`.
+If you don't have Git installed, you can instead [download the repo as a ZIP](https://github.com/lukemckinstry/big-geospatial-data/archive/refs/heads/main.zip). Of course, if there are changes, you will have to redownload changed files or the entire repo, whereas if you clone the repo you can update the files with `git pull`.
 
 Some notebooks require downloading data that is not stored in this repo (usually large files or data available via API).
 
