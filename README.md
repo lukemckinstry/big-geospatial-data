@@ -17,18 +17,11 @@ lab1-basi
 2. [Become familiar with Jupyter Notebook](setup/jupyter-notebook.md)
 3. [Python basics](01_basics_python_spatial_data.ipynb)
 
-## 2. Basics of GIS programming
+## 2. Vector Data Manipulation & Special Analysis with Geopandas
 
 
 1. [Python spatial module ecosystem](02-1_read_shapefile_gdal.ipynb)
 2. [Using Geopandas to read shapefiles and do spatial join](02-3_geopandas_spatial_analysis.ipynb)
-
-## 3. Spatial Data Manipulation
-
-The exercise [Using Fiona to manipulate shapefiles and do spatial analysis](03_spatial_analysis_fiona_shapely.ipynb) has the following sections:
-
-1. Read Shapefile using Fiona
-2. Using Fiona and Shapely to overlay shapefiles
 
 ## 4. Raster Data Operations
 
