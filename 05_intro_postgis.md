@@ -140,6 +140,8 @@ When you created your `geospatial` conda environment, conda also installed a han
 
 In Anaconda Prompt, activate the `geospatial` environment if it is not already activated. (You might want to open a new terminal window, as we will need to use `psql` again shortly.) 
 
+First we need to add a dependency to the `geospatial` Anaconda environment. Run the following in your Anaconda shell (be sure the `geospatial` environment is activated): `conda install -c conda-forge libgdal-pg`. Wait for it to install before proceeding.
+
 To get info on the PostGIS data source, we use the same connection parameters (host, port, dbname, user, and password) that we used previously. Get used to this! You will use these connection parameters next week when we connect to the database from Python.
 
 The command below gets info on the spatial database using the given connection string. The `-so` switch means summary only, and reduces the amount of information displayed. It is especially useful when querying *layers*, as the result will otherwise include all attribute and geometry information on all features in the layer. When querying a *container*, it is less crucial. The results 
