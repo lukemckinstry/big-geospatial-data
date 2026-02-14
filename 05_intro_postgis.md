@@ -156,11 +156,6 @@ INFO: Open of `PG:host=localhost port=5433 user=docker password=docker dbname=gi
 1: census3652 (Multi Polygon)
 ```
 
-> **WARNING FOR GDAL 3.10.1:** If you get the error `ogrinfo failed - unable to open 'PG:host=localhost port=5432 dbname=gis user=docker password=docker'`. First check that the GDAL PostgreSQL / PostGIS driver was installed correctly by running `ogrinfo --formats | grep "PostgreSQL"`. If you do not see `PostgreSQL -vector- (rw+): PostgreSQL/PostGIS` listed, then the driver was not installed correctly. This is due to an error in the conda-forge `gdal` package, create a new environment with the `libgdal` package instead. Leave the `geospatial` conda environment by running `conda deactivate geospatial`. Then create the new environment:
-> 1. `conda create -n geoenv python=3.8`  # Create a new environment with Python 3.8
-> 2. `conda activate geoenv`              # Activate the environment
-> 3. `conda install -c conda-forge libgdal`  # Install libgdal from conda-forge
-
 If you have uploaded other data, you may see more results in the list.
 
 Now let's get information on the data set that we want to import, `philadata3652.gpkg`. Make sure that your working directory is the course repository. The statement below uses to relative paths to find `philadata3652.gpkg` in the `data` directory of the current directory. If your current working directory is different, you will have to either change directories or adjust the path in the command.
