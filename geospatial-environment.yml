@@ -23,5 +23,6 @@ dependencies:
   - progressbar2
   - tqdm
   - gdal
+  - libgdal-pg
   # - conda-forge::pysolar
 prefix: /home/user/miniconda3/envs/geospatial
