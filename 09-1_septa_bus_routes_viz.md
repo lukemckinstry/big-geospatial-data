@@ -42,9 +42,9 @@ If you are using Windows, tippecanoe will not install as of 2026, there are 2 op
  - You can use your AWS EC2 instance from Lab 7 - because the OS in the EC2 is Linux which supports tippecanoe
    - Start the instance
    - Upload the GeoJSON file to EC2 using the process outlined in Lab 7 (ie. `WinSCP`, `scp` or `filezilla `) 
-   - Follow the instructions below to use Anaconda to install tippecanoe, and then use tippecanoe to convert the GeoJSON to mbtiles
+   - Follow the instructions in 1.2a to use Anaconda in the EC2 to install tippecanoe, and then use tippecanoe to convert the GeoJSON to mbtiles
  2. Fallback
- - If you are unable to complete the AWS EC2 process (ie. unable to connect or transfer files to your EC2) you may upload the GeoJSON directly to Mapbox Studio instead of converting it to mbtiles.
+ - If you are unable to complete the AWS EC2 process (ie. unable to connect or transfer files to your EC2) you may upload the GeoJSON directly to Mapbox Studio instead of converting it to mbtiles, and then continue on the step 2 with no further changes needed to the instructions.
 
 ## 2. Visualize on the web with Mapbox
 
