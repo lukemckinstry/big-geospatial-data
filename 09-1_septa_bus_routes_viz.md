@@ -1,4 +1,4 @@
-## Lab 9. Visualizing half-million building blocks online
+## Lab 9. Septa Bus Routes Visualization
 
 This week we are going to talk about using Mapbox to visualize data on the web and Github to publish a web map to a public webpage. 
 
@@ -24,6 +24,9 @@ Download GTFS data for Septa buses
  - You can inspect the file in QGIS or geojson.io.
 
 ### 1.2 Convert the geojson file into mbtile file
+
+#### 1.2a Standard process
+
 We are going to use mapbox to visualize the but routes in Philadelphia. Mapbox has developed an efficient format to using tiling system to visualize big spatial data. So, we are going to convert the geojson file into mbtiles. Here, you need to tool of `tippecanoe `
 
  - Install tippecanoe in the `geospatial` conda environment, run `conda install -c conda-forge tippecanoe`.
@@ -31,6 +34,17 @@ We are going to use mapbox to visualize the but routes in Philadelphia. Mapbox h
  - Use tippecanoe to convert to mbtiles, run `/path/to/anaconda3/tippecanoe/executable -zg -o septa_bus.mbtiles --drop-densest-as-needed data/google_bus/route_shapes.geojson`
  - Inspect the .mbtiles in QGIS.
    - Open QGIS 
+
+#### 1.2b Process for Windows Machines
+
+If you are using Windows, tippecanoe will not install as of 2026, there are 2 options:
+ 1. AWS EC2
+ - You can use your AWS EC2 instance from Lab 7 - because the OS in the EC2 is Linux which supports tippecanoe
+   - Start the instance
+   - Upload the GeoJSON file to EC2 using the process outlined in Lab 7 (ie. `WinSCP`, `scp` or `filezilla `) 
+   - Follow the instructions below to use Anaconda to install tippecanoe, and then use tippecanoe to convert the GeoJSON to mbtiles
+ 2. Fallback
+ - If you are unable to complete the AWS EC2 process (ie. unable to connect or transfer files to your EC2) you may upload the GeoJSON directly to Mapbox Studio instead of converting it to mbtiles.
 
 ## 2. Visualize on the web with Mapbox
 
@@ -114,7 +128,7 @@ body { margin: 0; padding: 0; }
    - Find this in Mapbox Studio by clicking the left side navigtion menu and selecting tokens
  - Add the tileset ID for your tileset to `url: 'mapbox://YOUR_TILESET_ID_HERE`
    - The instructions for finding this are in the `Upload and Visualize in Mapbox Studio` section above
-   - When you add your tileset ID, please the `mapbox://` portion at the start of the string
+   - When you add your tileset ID, please leave the `mapbox://` portion at the start of the string
  - Change the `source-layer` field to be the name of your tileset. You can find this value in MapBox Studio when you look at the tileset in the Data Manager `ex: route_shapes-aa4x18`.
  - View the application in a web browser, you can do this with right click on `index.html`, select applicaton, and select Chrome or Firefox
 
